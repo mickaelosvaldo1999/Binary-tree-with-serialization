@@ -1,0 +1,87 @@
+# depslib dependency file v1.0
+1570117830 source:/home/samuel/Projetos/typedFile/main.cpp
+	<iostream>
+	<clocale>
+	"header.h"
+	"record.h"
+	"typedfile.h"
+	"intserial.h"
+
+1570067211 source:/home/samuel/Projetos/typedFile/src/header.cpp
+	"header.h"
+
+1570044850 /home/samuel/Projetos/typedFile/include/header.h
+	"serializable.h"
+
+1570044844 /home/samuel/Projetos/typedFile/include/serializable.h
+	<string>
+
+1570109311 /home/samuel/Projetos/typedFile/include/record.h
+	<string>
+	"serializable.h"
+
+1570117830 /home/samuel/Projetos/typedFile/include/typedfile.h
+	<fstream>
+	<type_traits>
+
+1570039086 source:/home/samuel.dias/Projetos/typedFile/main.cpp
+	<iostream>
+	"header.h"
+	"record.h"
+	"typedfile.h"
+
+1570044850 /home/samuel.dias/Projetos/typedFile/include/header.h
+	"serializable.h"
+
+1570044844 /home/samuel.dias/Projetos/typedFile/include/serializable.h
+	<string>
+
+1570045637 /home/samuel.dias/Projetos/typedFile/include/record.h
+	<string>
+	"serializable.h"
+
+1570045509 /home/samuel.dias/Projetos/typedFile/include/typedfile.h
+	<fstream>
+	<type_traits>
+
+1570044864 source:/home/samuel.dias/Projetos/typedFile/src/header.cpp
+	"header.h"
+
+1570069201 source:/home/samuel/Projetos/typedFile/src/intserial.cpp
+	"intserial.h"
+
+1570069193 /home/samuel/Projetos/typedFile/include/intserial.h
+	"serializable.h"
+
+1570067211 source:/home/mickael/Desktop/Trabalho-tp/typedFile-clean/src/header.cpp
+	"header.h"
+
+1666749096 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/header.h
+	"serializable.h"
+
+1666745178 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/serializable.h
+	<string>
+
+1666745206 source:/home/mickael/Desktop/Trabalho-tp/typedFile-clean/src/intserial.cpp
+	"intserial.h"
+
+1666745107 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/intserial.h
+	"serializable.h"
+
+1666750120 source:/home/mickael/Desktop/Trabalho-tp/typedFile-clean/main.cpp
+	<iostream>
+	<clocale>
+	"header.h"
+	"record.h"
+	"typedfile.h"
+	"intserial.h"
+
+1570122688 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/record.h
+	<string>
+	"serializable.h"
+
+1666750688 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/typedfile.h
+	<fstream>
+	<type_traits>
+	<string>
+
