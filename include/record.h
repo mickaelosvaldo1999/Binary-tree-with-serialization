@@ -24,12 +24,14 @@ class record : public serializable {
       void del();
       void undel();
       virtual string toString();
+      virtual string toString(unsigned int i);
       virtual void fromString(string repr);
       virtual unsigned long long int size() const;
    protected:
       T data;
-      bool deleted;
-      unsigned long long int next;
+      unsigned int getSize;
+      bool deleted = true;
+      unsigned long long int next = 1313;
 };
 
 template <class T>
@@ -84,27 +86,51 @@ void record<T>::setNext(unsigned long long int n) {
 
 template <class T>
 bool record<T>::isDeleted() const {
-
+    return deleted;
 }
 
 template <class T>
 void record<T>::del() {
-
+    deleted = true;
 }
 
 template <class T>
 void record<T>::undel() {
-
+    deleted = false;
 }
 
 template <class T>
 string record<T>::toString() {
-
+    //Classe legado
 }
 
 template <class T>
-void record<T>::fromString(string repr) {
+string record<T>::toString(unsigned int i){
+    // i diz o tamanho do registro
+    getSize = i;
+    string aux;
+    unsigned int pos = 0;
+    //preciso arrumar o insert
+    aux.insert(0,i, '\0');
+    pos += sizeof(deleted);
+    aux.replace(0,sizeof(deleted),reinterpret_cast<char*>(&deleted), sizeof(deleted));
+    aux.replace(pos,pos+sizeof(next),reinterpret_cast<char*>(&next), sizeof(next));
+    pos += sizeof(next);
+    string temp = data.toString();
+    aux.replace(pos,i,temp);
+    aux.resize(i);
+    return aux;
+};
 
+template <class T>
+void record<T>::fromString(string repr) {
+    int pos = 0;
+    repr.copy(reinterpret_cast<char*>(&deleted), sizeof(deleted), pos);
+    pos += 1;
+    repr.copy(reinterpret_cast<char*>(&next), sizeof(next), pos);
+    pos += sizeof(next);
+    string teste = repr.substr(pos, getSize);
+    cout << next << " deleted: " << deleted << " dados: " << teste << endl;
 }
 
 template <class T>

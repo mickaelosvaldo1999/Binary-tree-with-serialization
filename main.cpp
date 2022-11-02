@@ -14,8 +14,11 @@ int main() {
    int op, n, i;
    //Iniciando objeto arquivo e verificando se é válido
    typedFile<intSerial> arq("teste.dat", "BTR", 1);
-
+   //Criando um encapsulador de registro
    record<intSerial> r;
+    //TESTE
+    arq.writeRecord(r);
+    arq.readRecord(r,1);
 
    if (arq.isOpen()) {
       cout << "Arquivo aberto com sucesso!\n\n";

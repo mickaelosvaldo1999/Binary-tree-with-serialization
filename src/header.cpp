@@ -20,6 +20,15 @@ header::~header() {
 int header::getSizeHeader() {
     return sizeHeader;
 }
+
+unsigned long long int header::getRecordPosition(unsigned int i) {
+    return (sizeHeader + ((i - 1)*sizeBody));
+}
+
+unsigned int header::getSizeBody() {
+    return sizeBody;
+}
+
 bool header::verify(string type, int v) {
     //Verificar se o tipo e versão é compativel!!.
     if (v == this->version) {
@@ -27,7 +36,7 @@ bool header::verify(string type, int v) {
         if (type == "BTR") {
             this->type = type;
             this->sizeHeader = 23;
-            this->sizeBody = 80;
+            this->sizeBody = 15;
             return true;
         } else if (type == "MIK") {
             this->type = type;
@@ -119,7 +128,7 @@ void header::fromString(string repr) {
    auto v = version;
    string t = repr.substr(pos, 3);
    pos += 3;
-   cout << repr << endl;
+   //cout << repr << endl;
    repr.copy(reinterpret_cast<char*>(&v), sizeof(v), pos);
    if (!this->verify(t,v)) {
         cout << "Uma versão diferente do arquivo foi encontrada, tenha certeza da compatibilidade antes de proceder!!" << endl;

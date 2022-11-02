@@ -14,6 +14,8 @@ class header : public serializable {
       bool verify(string type, int v);
       unsigned long long int getFirstDeleted() const;
       int getSizeHeader();
+      unsigned int getSizeBody();
+      unsigned long long int getRecordPosition(unsigned int i);
       void setFirstDeleted(unsigned long long int r);
       unsigned long long int getFirstValid() const;
       void setFirstValid(unsigned long long int r);

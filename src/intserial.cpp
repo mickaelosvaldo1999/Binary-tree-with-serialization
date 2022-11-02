@@ -77,7 +77,7 @@ int intSerial::getValue() const {
 }
 
 string intSerial::toString() {
-
+    return "testes";
 }
 
 void intSerial::fromString(string repr) {

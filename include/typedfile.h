@@ -21,7 +21,7 @@ class typedFile : private fstream {
       void close();
       void clear();
       bool readRecord(record<T> &r, unsigned long long int i);
-      bool writeRecord(record<T> &r, unsigned long long int i);
+      bool writeRecord(record<T> &r);
       bool insertRecord(record<T> &r);
       bool deleteRecord(unsigned long long int i);
       unsigned long long int getFirstValid();
@@ -70,7 +70,6 @@ template <class T>
 void typedFile<T>::open() {
     //Verificando se o arquivo existe.
     mFile.open(name,mode);
-    //rosetta.fromString(aux);
     if (!this->isOpen()) {
         //Se não existe ele precisa ser criado e o cabeçalho deve ser escrito
         mFile.open(name, ios::out);
@@ -113,12 +112,17 @@ void typedFile<T>::clear() {
 
 template <class T>
 bool typedFile<T>::readRecord(record<T> &r, unsigned long long int i) {
-
+    char *aux = new char[rosetta.getSizeBody()];
+    mFile.seekg(rosetta.getRecordPosition(i));
+    mFile.read(aux, rosetta.getSizeBody());
+    //Passando a string sem truncar com o tamanho pré-determinado
+    r.fromString(string(aux, rosetta.getSizeBody()));
 }
 
 template <class T>
-bool typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
-
+bool typedFile<T>::writeRecord(record<T> &r) {
+    mFile.seekp(0, ios::end);
+    mFile.write(r.toString(rosetta.getSizeBody()).c_str(),rosetta.getSizeBody());
 }
 
 template <class T>
