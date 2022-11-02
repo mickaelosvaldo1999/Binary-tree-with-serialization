@@ -53,10 +53,12 @@
 1570069193 /home/samuel/Projetos/typedFile/include/intserial.h
 	"serializable.h"
 
-1570067211 source:/home/mickael/Desktop/Trabalho-tp/typedFile-clean/src/header.cpp
+1667398659 source:/home/mickael/Desktop/Trabalho-tp/typedFile-clean/src/header.cpp
 	"header.h"
+	<iostream>
+	<string>
 
-1666749096 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/header.h
+1667398754 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/header.h
 	"serializable.h"
 
 1666745178 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/serializable.h
@@ -68,7 +70,7 @@
 1666745107 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/intserial.h
 	"serializable.h"
 
-1666750120 source:/home/mickael/Desktop/Trabalho-tp/typedFile-clean/main.cpp
+1667352694 source:/home/mickael/Desktop/Trabalho-tp/typedFile-clean/main.cpp
 	<iostream>
 	<clocale>
 	"header.h"
@@ -76,12 +78,13 @@
 	"typedfile.h"
 	"intserial.h"
 
-1570122688 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/record.h
+1666750831 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/record.h
 	<string>
 	"serializable.h"
 
-1666750688 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/typedfile.h
+1667397573 /home/mickael/Desktop/Trabalho-tp/typedFile-clean/include/typedfile.h
 	<fstream>
 	<type_traits>
 	<string>
+	<header.h>
 

@@ -1,19 +1,8 @@
 #include "header.h"
-
+#include <iostream>
+#include <string>
 header::header() : serializable() {
    //ctor
-   type = "***";
-   firstDeleted = 0;
-   firstValid = 0;
-   version = 0;
-}
-
-header::header(const string t, unsigned int v) : serializable() {
-   // ctor
-   type = t.substr(0, 3);
-   firstDeleted = 0;
-   firstValid = 0;
-   version = v;
 }
 
 header::header(const header &h) {
@@ -28,6 +17,34 @@ header::~header() {
    //dtor
 }
 
+int header::getSizeHeader() {
+    return sizeHeader;
+}
+bool header::verify(string type, int v) {
+    //Verificar se o tipo e versão é compativel!!.
+    if (v == this->version) {
+        this->version = v;
+        if (type == "BTR") {
+            this->type = type;
+            this->sizeHeader = 23;
+            this->sizeBody = 80;
+            return true;
+        } else if (type == "MIK") {
+            this->type = type;
+            this->sizeHeader = 30;
+            this->sizeBody = 80;
+            return true;
+        } else {
+            cerr << "Tipo " << type <<" não encontrado!!" << endl;
+            return false;
+        }
+    }
+      else {
+        cerr << "Vesão " << v <<" não compatível!!" << endl;
+        return false;
+    }
+    return false;
+}
 header header::operator=(const header &h) {
    header aux(h);
    if (this == &h)
@@ -80,19 +97,33 @@ void header::setVersion(unsigned int v) {
 }
 
 string header::toString() {
-   string aux = "";
-   aux += type;
-   aux += string(reinterpret_cast<char*>(&version), sizeof(version));
-   aux += string(reinterpret_cast<char*>(&firstValid), sizeof(firstValid));
-   aux += string(reinterpret_cast<char*>(&firstDeleted), sizeof(firstDeleted));
+   //Escrever string do cabeçalho!!
+   string aux;
+   unsigned int pos = 0;
+   aux.insert(0,sizeHeader, '\0');
+   pos +=3;
+   aux.replace(0,pos,type);
+   aux.replace(pos,pos+sizeof(version), reinterpret_cast<char*>(&version), sizeof(version));
+   pos += sizeof(version);
+   aux.replace(pos,pos+sizeof(firstValid), reinterpret_cast<char*>(&firstValid), sizeof(firstValid));
+   pos += sizeof(firstValid);
+   aux.replace(pos,pos+sizeof(firstDeleted), reinterpret_cast<char*>(&firstDeleted), sizeof(firstDeleted));
+   pos += sizeof(firstValid);
+   aux.resize(sizeHeader);
    return aux;
 }
 
 void header::fromString(string repr) {
+   //Verificar se a versão do cabeçalho do arquivo é compativel
    int pos = 0;
-   type = repr.substr(pos, 3);
-   pos += type.length();
-   repr.copy(reinterpret_cast<char*>(&version), sizeof(version), pos);
+   auto v = version;
+   string t = repr.substr(pos, 3);
+   pos += 3;
+   cout << repr << endl;
+   repr.copy(reinterpret_cast<char*>(&v), sizeof(v), pos);
+   if (!this->verify(t,v)) {
+        cout << "Uma versão diferente do arquivo foi encontrada, tenha certeza da compatibilidade antes de proceder!!" << endl;
+   }
    pos += sizeof(version);
    repr.copy(reinterpret_cast<char*>(&firstValid), sizeof(firstValid), pos);
    pos += sizeof(firstValid);

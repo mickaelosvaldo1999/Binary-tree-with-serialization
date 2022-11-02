@@ -8,11 +8,14 @@
 using namespace std;
 
 int main() {
+
+   //Setando local e variáveis iniciais.
    setlocale(LC_ALL, "Portuguese");
    int op, n, i;
-   typedFile<intSerial> arq("teste.dat", "TPG");
+   //Iniciando objeto arquivo e verificando se é válido
+   typedFile<intSerial> arq("teste.dat", "BTR", 1);
+
    record<intSerial> r;
-   arq.open();
 
    if (arq.isOpen()) {
       cout << "Arquivo aberto com sucesso!\n\n";
