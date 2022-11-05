@@ -22,6 +22,7 @@ class typedFile : private fstream {
       void clear();
       bool readRecord(record<T> &r, unsigned long long int i);
       bool writeRecord(record<T> &r);
+      bool writeRecord(record<T> &r, unsigned long long int i);
       bool insertRecord(record<T> &r);
       bool deleteRecord(unsigned long long int i);
       unsigned long long int getFirstValid();
@@ -55,10 +56,7 @@ typedFile<T>::typedFile(const string name, const string type, int ver) : fstream
     this->type = type;
     this->version = ver;
     //verificando a compatibilidade do header
-
-    if (this->rosetta.verify(type,ver)) {
-        this->open();
-    }
+    this->open();
 }
 
 template <class T>
@@ -80,18 +78,12 @@ void typedFile<T>::open() {
             cerr << "Não foi possivel abrir o arquivo. Problema com FSTREAM";
         }
         else {
-            //escrevendo primeiro cabeçalho
-            string aux = rosetta.toString();
-            mFile.seekp(0);
-            mFile.write(aux.c_str(), rosetta.getSizeHeader());
-            this->close();
-            this->open();       };
+            //Se o arquivo foi aberto então o cabeçalho deve ser escrito
+            this->writeHeader(rosetta);
+    }
     } else {
-        //lendo cabeçalho do arquivo
-        mFile.seekg(0);
-        char *aux = new char[rosetta.getSizeHeader()];
-        mFile.read(aux, rosetta.getSizeHeader());
-        rosetta.fromString(string(aux, rosetta.getSizeHeader()));
+        //Se o arquivo foi acerto então o cabeçalho deve ser lido
+        this->readHeader(rosetta);
     };
 }
 
@@ -121,9 +113,15 @@ bool typedFile<T>::readRecord(record<T> &r, unsigned long long int i) {
 
 template <class T>
 bool typedFile<T>::writeRecord(record<T> &r) {
-    mFile.seekp(0, ios::end);
+    cout << r.toString(rosetta.getSizeBody()).c_str() << endl;
     mFile.write(r.toString(rosetta.getSizeBody()).c_str(),rosetta.getSizeBody());
 }
+
+template <class T>
+bool typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
+    mFile.seekp(rosetta.getRecordPosition(i));
+    mFile.write(r.toString(rosetta.getSizeBody()).c_str(),rosetta.getSizeBody());
+};
 
 template <class T>
 bool typedFile<T>::insertRecord(record<T> &r) {
@@ -152,12 +150,23 @@ unsigned long long int typedFile<T>::search(T data) {
 
 template <class T>
 bool typedFile<T>::readHeader(header &h) {
-
+    //lendo cabeçalho do arquivo
+    mFile.seekg(0);
+    char *aux = new char[rosetta.size()];
+    mFile.read(aux, rosetta.size());
+    rosetta.fromString(string(aux, rosetta.size()));
+    return true;
 }
 
 template <class T>
 bool typedFile<T>::writeHeader(header &h) {
-
+    //escrevendo primeiro cabeçalho
+    string aux = rosetta.toString();
+    mFile.seekp(0);
+    mFile.write(aux.c_str(), rosetta.size());
+    this->close();
+    this->open();
+    return true;
 }
 
 template <class T>

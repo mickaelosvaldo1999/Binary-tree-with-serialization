@@ -28,7 +28,7 @@ class intSerial : serializable {
       virtual void fromString(string repr);
       virtual unsigned long long int size() const;
    protected:
-      int value;
+      int value = 65;
 };
 
 #endif // INTSERIAL_H

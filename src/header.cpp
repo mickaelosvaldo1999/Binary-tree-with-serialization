@@ -29,31 +29,6 @@ unsigned int header::getSizeBody() {
     return sizeBody;
 }
 
-bool header::verify(string type, int v) {
-    //Verificar se o tipo e versão é compativel!!.
-    if (v == this->version) {
-        this->version = v;
-        if (type == "BTR") {
-            this->type = type;
-            this->sizeHeader = 23;
-            this->sizeBody = 15;
-            return true;
-        } else if (type == "MIK") {
-            this->type = type;
-            this->sizeHeader = 30;
-            this->sizeBody = 80;
-            return true;
-        } else {
-            cerr << "Tipo " << type <<" não encontrado!!" << endl;
-            return false;
-        }
-    }
-      else {
-        cerr << "Vesão " << v <<" não compatível!!" << endl;
-        return false;
-    }
-    return false;
-}
 header header::operator=(const header &h) {
    header aux(h);
    if (this == &h)
@@ -109,7 +84,7 @@ string header::toString() {
    //Escrever string do cabeçalho!!
    string aux;
    unsigned int pos = 0;
-   aux.insert(0,sizeHeader, '\0');
+   aux.insert(0,this->size(), '\0');
    pos +=3;
    aux.replace(0,pos,type);
    aux.replace(pos,pos+sizeof(version), reinterpret_cast<char*>(&version), sizeof(version));
@@ -118,7 +93,7 @@ string header::toString() {
    pos += sizeof(firstValid);
    aux.replace(pos,pos+sizeof(firstDeleted), reinterpret_cast<char*>(&firstDeleted), sizeof(firstDeleted));
    pos += sizeof(firstValid);
-   aux.resize(sizeHeader);
+   aux.resize(this->size());
    return aux;
 }
 
@@ -130,7 +105,10 @@ void header::fromString(string repr) {
    pos += 3;
    //cout << repr << endl;
    repr.copy(reinterpret_cast<char*>(&v), sizeof(v), pos);
-   if (!this->verify(t,v)) {
+   if (this->type != t) {
+        cerr << "Tipo diferente do arquivo";
+   }
+   else if (this->version != v) {
         cout << "Uma versão diferente do arquivo foi encontrada, tenha certeza da compatibilidade antes de proceder!!" << endl;
    }
    pos += sizeof(version);

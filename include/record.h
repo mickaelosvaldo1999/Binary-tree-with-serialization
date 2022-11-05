@@ -41,7 +41,8 @@ record<T>::record() : serializable() {
 
 template <class T>
 record<T>::record(T d) : serializable() {
-
+    data = d;
+    cout << "//" << data.getValue() << endl;
 }
 
 template <class T>
@@ -56,7 +57,10 @@ record<T>::~record() {
 
 template <class T>
 record<T> record<T>::operator=(const record<T> &other) {
-
+    T aux = other.getData();
+    cout << "-[]" << aux.getValue();
+    cout << "comparado " << data.getValue() << other.getData().getValue();
+    data = other.getData();
 }
 
 template <class T>
@@ -66,12 +70,12 @@ bool record<T>::operator==(const record<T> &other) {
 
 template <class T>
 T record<T>::getData() const {
-
+    return data;
 }
 
 template <class T>
 void record<T>::setData(T d) {
-
+    data = d;
 }
 
 template <class T>
