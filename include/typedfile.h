@@ -104,19 +104,19 @@ void typedFile<T>::clear() {
 
 template <class T>
 bool typedFile<T>::readRecord(record<T> &r, unsigned long long int i) {
-    char *aux = new char[rosetta.getSizeBody()];
-    mFile.seekg(rosetta.getRecordPosition(i));
-    mFile.read(aux, rosetta.getSizeBody());
+    char *aux = new char[r.size()];
+    mFile.seekg(this->index2pos(i));
+    mFile.read(aux, r.size());
+    cout << "----- " << this-> index2pos(i) << aux[0] << endl;
     //Passando a string sem truncar com o tamanho pré-determinado
-    r.fromString(string(aux, rosetta.getSizeBody()));
+    r.fromString(string(aux, r.size()));
 }
 
 template <class T>
 bool typedFile<T>::writeRecord(record<T> &r) {
-    //cout << r.toString(rosetta.getSizeBody()).c_str() << endl;
     cout << r.size() << endl;
 
-    mFile.write(r.toString(rosetta.getSizeBody()).c_str(),rosetta.getSizeBody());
+    mFile.write(r.toString().c_str(),r.size());
 }
 
 template <class T>

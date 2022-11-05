@@ -34,13 +34,11 @@ int main() {
             case 1:
                cout << "Digite um número inteiro: ";
                cin >> n;
-               cout << "-------" << endl;
                r = record<intSerial>(n);
 
-               cout << r.getData().getValue() << endl;
-               r.setData(n);
+               //r.setData(n);
                arq.writeRecord(r);
-               //arq.readRecord(r,1);
+               arq.readRecord(r,2);
 
                if (arq.insertRecord(r))
                   cout << "Valor " << n << " inserido com sucesso.\n" << endl;
