@@ -104,6 +104,7 @@ void header::fromString(string repr) {
    string t = repr.substr(pos, 3);
    pos += 3;
    //cout << repr << endl;
+   cout << "++ " << t << endl;
    repr.copy(reinterpret_cast<char*>(&v), sizeof(v), pos);
    if (this->type != t) {
         cerr << "Tipo diferente do arquivo";

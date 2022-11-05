@@ -11,7 +11,6 @@ class header : public serializable {
       virtual ~header();
       header operator=(const header &h);
       bool operator==(const header &h);
-      bool verify(string type, int v);
       unsigned long long int getFirstDeleted() const;
       int getSizeHeader();
       unsigned int getSizeBody();
@@ -28,7 +27,7 @@ class header : public serializable {
       virtual unsigned long long int size() const;
    protected:
       //Dados do cabeçalho
-      string type;
+      string type = "BTR";
       unsigned int version = 1;
       unsigned long long int firstValid = 12;
       unsigned long long int firstDeleted = 93;

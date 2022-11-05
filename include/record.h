@@ -139,7 +139,8 @@ void record<T>::fromString(string repr) {
 
 template <class T>
 unsigned long long int record<T>::size() const {
-
+    //tamanho do
+    return sizeof(deleted) + sizeof(next) + sizeof(int);
 }
 
 #endif // RECORD_H

@@ -113,13 +113,15 @@ bool typedFile<T>::readRecord(record<T> &r, unsigned long long int i) {
 
 template <class T>
 bool typedFile<T>::writeRecord(record<T> &r) {
-    cout << r.toString(rosetta.getSizeBody()).c_str() << endl;
+    //cout << r.toString(rosetta.getSizeBody()).c_str() << endl;
+    cout << r.size() << endl;
+
     mFile.write(r.toString(rosetta.getSizeBody()).c_str(),rosetta.getSizeBody());
 }
 
 template <class T>
 bool typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
-    mFile.seekp(rosetta.getRecordPosition(i));
+    mFile.seekp(this->index2pos(1));
     mFile.write(r.toString(rosetta.getSizeBody()).c_str(),rosetta.getSizeBody());
 };
 
@@ -171,7 +173,7 @@ bool typedFile<T>::writeHeader(header &h) {
 
 template <class T>
 unsigned long long int typedFile<T>::index2pos(unsigned long long int i) {
-
+    return (rosetta.size() + ((i - 1)*13));
 }
 
 template <class T>
