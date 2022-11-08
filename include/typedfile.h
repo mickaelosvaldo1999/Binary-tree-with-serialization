@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <string>
 #include <header.h>
+#include <intserial.h>
 using namespace std;
 
 const ios::openmode mode = ios::in | ios::out | ios::ate | ios::binary;
@@ -21,7 +22,6 @@ class typedFile : private fstream {
       void close();
       void clear();
       bool readRecord(record<T> &r, unsigned long long int i);
-      bool writeRecord(record<T> &r);
       bool writeRecord(record<T> &r, unsigned long long int i);
       bool insertRecord(record<T> &r);
       bool deleteRecord(unsigned long long int i);
@@ -80,7 +80,9 @@ void typedFile<T>::open() {
         else {
             //Se o arquivo foi aberto então o cabeçalho deve ser escrito
             this->writeHeader(rosetta);
-    }
+            this->close();
+            this->open();
+            }
     } else {
         //Se o arquivo foi acerto então o cabeçalho deve ser lido
         this->readHeader(rosetta);
@@ -105,29 +107,52 @@ void typedFile<T>::clear() {
 template <class T>
 bool typedFile<T>::readRecord(record<T> &r, unsigned long long int i) {
     char *aux = new char[r.size()];
-    mFile.seekg(this->index2pos(i));
+    mFile.seekg(this->index2pos(i), ios::beg);
     mFile.read(aux, r.size());
-    cout << "----- " << this-> index2pos(i) << aux[0] << endl;
     //Passando a string sem truncar com o tamanho pré-determinado
     r.fromString(string(aux, r.size()));
 }
 
 template <class T>
-bool typedFile<T>::writeRecord(record<T> &r) {
-    cout << r.size() << endl;
-
-    mFile.write(r.toString().c_str(),r.size());
-}
-
-template <class T>
 bool typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
-    mFile.seekp(this->index2pos(1));
-    mFile.write(r.toString(rosetta.getSizeBody()).c_str(),rosetta.getSizeBody());
+    if (i == 0) {
+        //Verificando ultima posição do arquivo
+        mFile.seekp(0, ios::end);
+        //setando  record para pegar o ultimo válido
+        r.setNext(rosetta.getFirstValid());
+        rosetta.setFirstValid(this->pos2index(mFile.tellp()));
+        //escrevendo de fato no arquivo
+        mFile.write(r.toString().c_str(),r.size());
+        this->writeHeader(rosetta);
+        return true;
+    } else {
+        //Verificando primeiro valor válido
+        r.setNext(rosetta.getFirstValid());
+        rosetta.setFirstValid(i);
+        //escrevendo de fato o registro
+        mFile.seekp(this->index2pos(1));
+        mFile.write(r.toString().c_str(),r.size());
+        this->writeHeader(rosetta);
+        return true;
+    }
+    return false;
 };
 
 template <class T>
 bool typedFile<T>::insertRecord(record<T> &r) {
-
+    if (rosetta.getFirstDeleted() == 0) {
+        cout << "########## -- firstdeleted = 0" << endl;
+        return this->writeRecord(r,0);
+    } else {
+        //Reciclando valor do registro
+        unsigned long long int newR = rosetta.getFirstDeleted();
+        //Adicionando novo registro a lista de deletados.
+        record<T> aux;
+        this->readRecord(aux,rosetta.getFirstDeleted());
+        rosetta.setFirstDeleted(aux.getNext());
+        //Reciclando registro.
+        this->writeRecord(r,newR);
+    }
 }
 
 template <class T>
@@ -137,12 +162,12 @@ bool typedFile<T>::deleteRecord(unsigned long long int i) {
 
 template <class T>
 unsigned long long int typedFile<T>::getFirstValid() {
-
+    return rosetta.getFirstValid();
 }
 
 template <class T>
 unsigned long long int typedFile<T>::getFirstDeleted() {
-
+    return rosetta.getFirstDeleted();
 }
 
 template <class T>
@@ -153,7 +178,7 @@ unsigned long long int typedFile<T>::search(T data) {
 template <class T>
 bool typedFile<T>::readHeader(header &h) {
     //lendo cabeçalho do arquivo
-    mFile.seekg(0);
+    mFile.seekg(0, ios::beg);
     char *aux = new char[rosetta.size()];
     mFile.read(aux, rosetta.size());
     rosetta.fromString(string(aux, rosetta.size()));
@@ -166,8 +191,6 @@ bool typedFile<T>::writeHeader(header &h) {
     string aux = rosetta.toString();
     mFile.seekp(0);
     mFile.write(aux.c_str(), rosetta.size());
-    this->close();
-    this->open();
     return true;
 }
 
@@ -177,7 +200,7 @@ unsigned long long int typedFile<T>::index2pos(unsigned long long int i) {
 }
 
 template <class T>
-unsigned long long int typedFile<T>::pos2index(unsigned long long int p) {
-
+unsigned long long int typedFile<T>::pos2index(unsigned long long int i) {
+    return ((i - rosetta.size()) / 13) + 1;
 }
 #endif // TYPEDFILE_H

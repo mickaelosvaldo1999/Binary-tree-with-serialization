@@ -12,8 +12,6 @@ class header : public serializable {
       header operator=(const header &h);
       bool operator==(const header &h);
       unsigned long long int getFirstDeleted() const;
-      int getSizeHeader();
-      unsigned int getSizeBody();
       unsigned long long int getRecordPosition(unsigned int i);
       void setFirstDeleted(unsigned long long int r);
       unsigned long long int getFirstValid() const;
@@ -29,10 +27,8 @@ class header : public serializable {
       //Dados do cabeçalho
       string type = "BTR";
       unsigned int version = 1;
-      unsigned long long int firstValid = 12;
-      unsigned long long int firstDeleted = 93;
-      //Tradução para que o cabeçalho indique todas as estruturas a serem seguidas
-      unsigned int sizeHeader, sizeBody;
+      unsigned long long int firstValid = 0;
+      unsigned long long int firstDeleted = 0;
 };
 
 #endif // HEADER_H

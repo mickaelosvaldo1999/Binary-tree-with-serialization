@@ -74,7 +74,7 @@ void intSerial::setValue(int v) {
 }
 
 int intSerial::getValue() const {
-    return value;
+    return this->value;
 }
 
 string intSerial::toString() {

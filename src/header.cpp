@@ -17,17 +17,6 @@ header::~header() {
    //dtor
 }
 
-int header::getSizeHeader() {
-    return sizeHeader;
-}
-
-unsigned long long int header::getRecordPosition(unsigned int i) {
-    return (sizeHeader + ((i - 1)*sizeBody));
-}
-
-unsigned int header::getSizeBody() {
-    return sizeBody;
-}
 
 header header::operator=(const header &h) {
    header aux(h);

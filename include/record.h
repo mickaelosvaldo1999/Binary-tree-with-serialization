@@ -23,13 +23,14 @@ class record : public serializable {
       bool isDeleted() const;
       void del();
       void undel();
+      int apagar();
       virtual string toString();
       virtual void fromString(string repr);
       virtual unsigned long long int size() const;
    protected:
       T data;
       bool deleted = false;
-      unsigned long long int next = 1313;
+      unsigned long long int next = 0;
 };
 
 template <class T>
@@ -45,7 +46,9 @@ record<T>::record(T d) : serializable() {
 
 template <class T>
 record<T>::record(const record<T> &other) {
-
+    data = other.getData();
+    deleted = other.isDeleted();
+    next = other.getNext();
 }
 
 template <class T>
@@ -71,6 +74,12 @@ T record<T>::getData() const {
     return data;
 }
 
+//====================================================================================================================
+template <class T>
+int record<T>::apagar() {
+    return data.getValue();
+}
+//====================================================================================================================
 template <class T>
 void record<T>::setData(T d) {
     data = d;
@@ -78,12 +87,12 @@ void record<T>::setData(T d) {
 
 template <class T>
 unsigned long long int record<T>::getNext() const {
-
+    return next;
 }
 
 template <class T>
 void record<T>::setNext(unsigned long long int n) {
-
+    next = n;
 }
 
 template <class T>

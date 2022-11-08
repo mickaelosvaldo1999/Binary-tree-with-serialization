@@ -34,15 +34,13 @@ int main() {
             case 1:
                cout << "Digite um número inteiro: ";
                cin >> n;
-               r = record<intSerial>(n);
+               //r = record<intSerial>(n);
+               r.setData(n);
+               //arq.writeRecord(r,0);
 
-               //r.setData(n);
-               arq.writeRecord(r);
-               arq.readRecord(r,2);
-
-               if (arq.insertRecord(r))
-                  cout << "Valor " << n << " inserido com sucesso.\n" << endl;
-
+               if (arq.insertRecord(r)) {
+                    cout << "Valor " << n << " inserido com sucesso.\n" << endl;
+               }
                break;
             case 2:
                cout << "Digite valor deseja remover do arquivo: ";
@@ -75,7 +73,10 @@ int main() {
                } else {
                   while (i != 0) {
                      arq.readRecord(r, i);
-                     cout << "- " << r.getData().getValue() << endl;
+                     //r.getData().getValue();
+                     //cout << "+================== " << r.apagar() << endl;
+                     //cout << "- " << r.getData().getValue() << endl;
+                     cout << "- " << r.apagar() << endl;
                      i = r.getNext();
                   }
                   cout << endl;
