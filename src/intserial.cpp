@@ -9,7 +9,7 @@ intSerial::intSerial(int i) : serializable() {
 }
 
 intSerial::intSerial(const intSerial &other) {
-
+    this->setValue(other.getValue());
 }
 
 intSerial::~intSerial() {
@@ -18,7 +18,6 @@ intSerial::~intSerial() {
 
 intSerial intSerial::operator=(const intSerial &other) {
     value = other.getValue();
-    cout << "mudou " << value << endl;
 }
 
 bool intSerial::operator==(const intSerial &other) const {
@@ -79,10 +78,8 @@ int intSerial::getValue() const {
 
 string intSerial::toString() {
     string aux;
-    cout << "== " << value << endl;
     aux.insert(0,sizeof(int), '\0');
     aux.replace(0, sizeof(int), reinterpret_cast<char*>(&value), sizeof(value));
-    cout << "== " << aux << endl;
     return aux;
 }
 

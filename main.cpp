@@ -34,9 +34,7 @@ int main() {
             case 1:
                cout << "Digite um número inteiro: ";
                cin >> n;
-               //r = record<intSerial>(n);
-               r.setData(n);
-               //arq.writeRecord(r,0);
+               r = record<intSerial>(n);
 
                if (arq.insertRecord(r)) {
                     cout << "Valor " << n << " inserido com sucesso.\n" << endl;
@@ -73,10 +71,7 @@ int main() {
                } else {
                   while (i != 0) {
                      arq.readRecord(r, i);
-                     //r.getData().getValue();
-                     //cout << "+================== " << r.apagar() << endl;
-                     //cout << "- " << r.getData().getValue() << endl;
-                     cout << "- " << r.apagar() << endl;
+                     cout << "- " << r.getData().getValue() << endl;
                      i = r.getNext();
                   }
                   cout << endl;

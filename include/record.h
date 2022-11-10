@@ -23,7 +23,6 @@ class record : public serializable {
       bool isDeleted() const;
       void del();
       void undel();
-      int apagar();
       virtual string toString();
       virtual void fromString(string repr);
       virtual unsigned long long int size() const;
@@ -40,12 +39,13 @@ record<T>::record() : serializable() {
 
 template <class T>
 record<T>::record(T d) : serializable() {
+    //Seta a data quando o construtor é iniciado
     data = d;
-    cout << "//" << data.getValue() << endl;
 }
 
 template <class T>
 record<T>::record(const record<T> &other) {
+    //Construtor quando uma record inteira é utilizada como parametro
     data = other.getData();
     deleted = other.isDeleted();
     next = other.getNext();
@@ -58,9 +58,8 @@ record<T>::~record() {
 
 template <class T>
 record<T> record<T>::operator=(const record<T> &other) {
+    //Sobrecarga com operador de igualdade
     T aux = other.getData();
-    cout << "-[]" << aux.getValue();
-    cout << "comparado " << data.getValue() << other.getData().getValue();
     data = other.getData();
 }
 
@@ -74,12 +73,7 @@ T record<T>::getData() const {
     return data;
 }
 
-//====================================================================================================================
-template <class T>
-int record<T>::apagar() {
-    return data.getValue();
-}
-//====================================================================================================================
+
 template <class T>
 void record<T>::setData(T d) {
     data = d;

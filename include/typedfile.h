@@ -144,6 +144,7 @@ bool typedFile<T>::insertRecord(record<T> &r) {
         cout << "########## -- firstdeleted = 0" << endl;
         return this->writeRecord(r,0);
     } else {
+        cout << "########## -- firstdeleted = 1" << endl;
         //Reciclando valor do registro
         unsigned long long int newR = rosetta.getFirstDeleted();
         //Adicionando novo registro a lista de deletados.
