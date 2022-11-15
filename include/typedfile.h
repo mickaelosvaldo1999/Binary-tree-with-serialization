@@ -111,6 +111,7 @@ bool typedFile<T>::readRecord(record<T> &r, unsigned long long int i) {
     mFile.read(aux, r.size());
     //Passando a string sem truncar com o tamanho pré-determinado
     r.fromString(string(aux, r.size()));
+    return true;
 }
 
 template <class T>
@@ -158,11 +159,46 @@ bool typedFile<T>::insertRecord(record<T> &r) {
 
 template <class T>
 bool typedFile<T>::deleteRecord(unsigned long long int i) {
+    record<T> r;
+    record<T> k;
 
+    unsigned long long int aux = this->getFirstValid();
+    unsigned long long int temp = 0;
+    if (aux == i) {
+        //Caso o deletado for o primeiro válido
+        this->readRecord(r, i);
+        this->rosetta.setFirstValid(r.getNext());
+        cout << r.getNext() << " && " << this->getFirstValid() << endl;
+        r.del();
+        r.setNext(this->getFirstDeleted());
+        rosetta.setFirstDeleted(i);
+        writeRecord(r,i);
+        //writeHeader(rosetta);
+
+    } else {
+    if (aux != 0){
+        while (aux != 0) {
+            this->readRecord(r, aux);
+            temp = r.getNext();
+            if (temp == i)
+                cout << "achamos porra" << endl;
+                this->readRecord(k, i);
+                r.setNext(k.getNext());
+                k.del();
+                k.setNext(this->getFirstDeleted());
+                rosetta.setFirstDeleted(aux);
+                this->writeRecord(r,aux);
+                this->writeRecord(k,i);
+                aux = temp;
+                break;
+            }
+    }
+}
 }
 
 template <class T>
 unsigned long long int typedFile<T>::getFirstValid() {
+    cout << "/;/;/;/ " << rosetta.getFirstValid() << endl;
     return rosetta.getFirstValid();
 }
 
@@ -174,6 +210,22 @@ unsigned long long int typedFile<T>::getFirstDeleted() {
 template <class T>
 unsigned long long int typedFile<T>::search(T data) {
 
+    unsigned long long int i = this->getFirstValid();
+
+    if (i == 0) {
+        //data.setValue(0);
+        return 0;
+    } else {
+        while (i != 0) {
+            record<T> r;
+            this->readRecord(r, i);
+            if (r.getData().getValue() == data.getValue()) {
+                return i;
+            }
+            i = r.getNext();
+        }
+        return 0;
+    }
 }
 
 template <class T>

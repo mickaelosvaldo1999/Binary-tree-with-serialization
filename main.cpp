@@ -55,7 +55,7 @@ int main() {
                cout << "Digite o valor a ser pesquisado: ";
                cin >> n;
                i = arq.search(intSerial(n));
-
+               cout << i << endl;
                if (i != 0)
                   cout << "Valor " << n << " encontrado no registro " << i << ".\n" << endl;
                else
@@ -65,6 +65,8 @@ int main() {
             case 4:
                cout << "Listando todos os registros válidos do arquivo: " << endl;
                i = arq.getFirstValid();
+
+               cout << "@@@ " << i << endl;
 
                if (i == 0) {
                   cout << "Não existem registros no arquivo.\n" << endl;

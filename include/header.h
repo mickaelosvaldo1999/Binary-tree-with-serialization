@@ -23,6 +23,13 @@ class header : public serializable {
       virtual string toString();
       virtual void fromString(string repr);
       virtual unsigned long long int size() const;
+
+      virtual string toXML() {return "NotImplemented";};
+      virtual void fromXML(string repr) {};
+      virtual string toCSV() {return "NotImplemented";};
+      virtual void fromCSV(string repr) {};
+      virtual string toJSON() {return "NotImplemented";};
+      virtual void fromJSON(string repr) {};
    protected:
       //Dados do cabeçalho
       string type = "BTR";
