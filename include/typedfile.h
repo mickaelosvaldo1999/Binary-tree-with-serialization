@@ -96,12 +96,13 @@ bool typedFile<T>::isOpen() {
 
 template <class T>
 void typedFile<T>::close() {
+    this->writeHeader(rosetta);
     mFile.close();
 }
 
 template <class T>
 void typedFile<T>::clear() {
-
+    //Não implementado
 }
 
 template <class T>
@@ -117,6 +118,7 @@ bool typedFile<T>::readRecord(record<T> &r, unsigned long long int i) {
 template <class T>
 bool typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
     if (i == 0) {
+        cout << "Alocando mais memória para registros" << endl;
         //Verificando ultima posição do arquivo
         mFile.seekp(0, ios::end);
         //setando  record para pegar o ultimo válido
@@ -127,11 +129,8 @@ bool typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
         this->writeHeader(rosetta);
         return true;
     } else {
-        //Verificando primeiro valor válido
-        r.setNext(rosetta.getFirstValid());
-        rosetta.setFirstValid(i);
         //escrevendo de fato o registro
-        mFile.seekp(this->index2pos(1));
+        mFile.seekp(this->index2pos(i));
         mFile.write(r.toString().c_str(),r.size());
         this->writeHeader(rosetta);
         return true;
@@ -142,16 +141,19 @@ bool typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
 template <class T>
 bool typedFile<T>::insertRecord(record<T> &r) {
     if (rosetta.getFirstDeleted() == 0) {
-        cout << "########## -- firstdeleted = 0" << endl;
+        //Escrevendo o registro
         return this->writeRecord(r,0);
     } else {
-        cout << "########## -- firstdeleted = 1" << endl;
-        //Reciclando valor do registro
+        //lendo o ultimo deletado e obtendo sua posição
         unsigned long long int newR = rosetta.getFirstDeleted();
-        //Adicionando novo registro a lista de deletados.
         record<T> aux;
         this->readRecord(aux,rosetta.getFirstDeleted());
+        //Setando o ultimo deletado
         rosetta.setFirstDeleted(aux.getNext());
+        //Verificando primeiro valor válido
+        r.setNext(rosetta.getFirstValid());
+        //Reciclando valor do registro
+        rosetta.setFirstValid(newR);
         //Reciclando registro.
         this->writeRecord(r,newR);
     }
@@ -159,46 +161,54 @@ bool typedFile<T>::insertRecord(record<T> &r) {
 
 template <class T>
 bool typedFile<T>::deleteRecord(unsigned long long int i) {
-    record<T> r;
-    record<T> k;
-
-    unsigned long long int aux = this->getFirstValid();
-    unsigned long long int temp = 0;
-    if (aux == i) {
-        //Caso o deletado for o primeiro válido
-        this->readRecord(r, i);
-        this->rosetta.setFirstValid(r.getNext());
-        cout << r.getNext() << " && " << this->getFirstValid() << endl;
-        r.del();
-        r.setNext(this->getFirstDeleted());
-        rosetta.setFirstDeleted(i);
-        writeRecord(r,i);
-        //writeHeader(rosetta);
-
-    } else {
-    if (aux != 0){
-        while (aux != 0) {
+    if (i != 0) {
+        record<T> r;
+        record<T> k;
+        unsigned long long int aux = this->getFirstValid();
+        unsigned long long int temp = 0;
+        if (aux == i) {
+            //Caso o deletado seja o primeiro válido
             this->readRecord(r, aux);
-            temp = r.getNext();
-            if (temp == i)
-                cout << "achamos porra" << endl;
-                this->readRecord(k, i);
-                r.setNext(k.getNext());
-                k.del();
-                k.setNext(this->getFirstDeleted());
-                rosetta.setFirstDeleted(aux);
-                this->writeRecord(r,aux);
-                this->writeRecord(k,i);
-                aux = temp;
-                break;
-            }
+            this->rosetta.setFirstValid(r.getNext());
+            r.del();
+            r.setNext(this->getFirstDeleted());
+            rosetta.setFirstDeleted(aux);
+            writeRecord(r,aux);
+            writeHeader(rosetta);
+            return true;
+
+        } else {
+            //Caso o deleteado não seja o primeiro válido
+             while (aux != i) {
+                if (aux == 0) {
+                    cout << "ERRO GRAVE: DeleteRecord utilizado sem Search antes (cuidado!!!)" << endl;
+                    return false;
+                }
+                // Procurando valor sem entrar nele
+                this->readRecord(r, aux);
+                if (r.getNext() == i) {
+                    readRecord(k, i);
+                    r.setNext(k.getNext());
+                    k.del();
+                    k.setNext(rosetta.getFirstDeleted());
+                    rosetta.setFirstDeleted(i);
+                    this->writeRecord(k, i);
+                    this->writeRecord(r, aux);
+                    writeHeader(rosetta);
+                    return true;
+                };
+                aux = r.getNext();
+
+             }
+        }
+    } else {
+        cout << "ERRO GRAVE: ZERO É UM PARÂMETRO DE SISTEMA, ALGO DEU ERRADO" << endl;
+        return false;
     }
-}
 }
 
 template <class T>
 unsigned long long int typedFile<T>::getFirstValid() {
-    cout << "/;/;/;/ " << rosetta.getFirstValid() << endl;
     return rosetta.getFirstValid();
 }
 

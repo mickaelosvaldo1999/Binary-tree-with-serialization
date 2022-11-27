@@ -47,6 +47,8 @@ int main() {
                if (i != 0) {
                   if (arq.deleteRecord(i))
                      cout << "Valor " << n << " removido do arquivo.\n" << endl;
+                     cout << "FirstValidMain " << arq.getFirstValid() << " --" << endl;
+                     //arq.clear();
                } else {
                   cout << "Valor " << n << " não encontrado no arquivo\n" << endl;
                }
@@ -65,9 +67,6 @@ int main() {
             case 4:
                cout << "Listando todos os registros válidos do arquivo: " << endl;
                i = arq.getFirstValid();
-
-               cout << "@@@ " << i << endl;
-
                if (i == 0) {
                   cout << "Não existem registros no arquivo.\n" << endl;
                } else {

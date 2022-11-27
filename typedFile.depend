@@ -90,3 +90,40 @@
 	<header.h>
 	<intserial.h>
 
+1669583188 source:/home/mickael/Desktop/TypedFile/main.cpp
+	<iostream>
+	<clocale>
+	"header.h"
+	"record.h"
+	"typedfile.h"
+	"intserial.h"
+
+1669556610 /home/mickael/Desktop/TypedFile/include/header.h
+	"serializable.h"
+
+1669556610 /home/mickael/Desktop/TypedFile/include/serializable.h
+	<string>
+
+1669558719 /home/mickael/Desktop/TypedFile/include/record.h
+	<string>
+	"serializable.h"
+
+1669583406 /home/mickael/Desktop/TypedFile/include/typedfile.h
+	<fstream>
+	<type_traits>
+	<string>
+	<header.h>
+	<intserial.h>
+
+1669556610 /home/mickael/Desktop/TypedFile/include/intserial.h
+	"serializable.h"
+
+1669556610 source:/home/mickael/Desktop/TypedFile/src/intserial.cpp
+	"intserial.h"
+	<iostream>
+
+1669558649 source:/home/mickael/Desktop/TypedFile/src/header.cpp
+	"header.h"
+	<iostream>
+	<string>
+

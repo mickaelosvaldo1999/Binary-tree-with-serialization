@@ -20,9 +20,9 @@ header::~header() {
 
 header header::operator=(const header &h) {
    header aux(h);
+   cout << "Igualdade de Header " << endl;
    if (this == &h)
       return *this;
-
    type = h.getType();
    firstDeleted = h.getFirstDeleted();
    firstValid = h.getFirstValid();
@@ -50,7 +50,7 @@ unsigned long long int header::getFirstValid() const {
 }
 
 void header::setFirstValid(unsigned long long int r) {
-   firstValid = r;
+   this->firstValid = r;
 }
 
 string header::getType() const {
