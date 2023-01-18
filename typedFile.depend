@@ -104,10 +104,9 @@
 1669556610 /home/mickael/Desktop/TypedFile/include/serializable.h
 	<string>
 
-1674003233 /home/mickael/Desktop/TypedFile/include/record.h
+1674074762 /home/mickael/Desktop/TypedFile/include/record.h
 	<string>
 	"serializable.h"
-	<vector>
 
 1674001555 /home/mickael/Desktop/TypedFile/include/typedfile.h
 	<fstream>
