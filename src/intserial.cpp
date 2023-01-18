@@ -24,24 +24,13 @@ bool intSerial::operator==(const intSerial &other) const {
 
 }
 
+
 bool intSerial::operator<(const intSerial &other) const {
-
-}
-
-bool intSerial::operator<=(const intSerial &other) const {
-
-}
-
-bool intSerial::operator>(const intSerial &other) const {
-
-}
-
-bool intSerial::operator>=(const intSerial &other) const {
-
+    return value < other.getValue();
 }
 
 bool intSerial::operator!=(const intSerial &other) const {
-
+    return value != other.getValue();
 }
 
 intSerial intSerial::operator+(const intSerial& other) const {

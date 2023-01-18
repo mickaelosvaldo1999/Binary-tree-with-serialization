@@ -12,9 +12,6 @@ class intSerial : serializable {
       intSerial operator=(const intSerial& other);
       bool operator==(const intSerial &other) const;
       bool operator<(const intSerial &other) const;
-      bool operator<=(const intSerial &other) const;
-      bool operator>(const intSerial &other) const;
-      bool operator>=(const intSerial &other) const;
       bool operator!=(const intSerial &other) const;
       intSerial operator+(const intSerial& other) const;
       intSerial operator-(const intSerial& other) const;

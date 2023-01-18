@@ -15,8 +15,13 @@ int main() {
    setlocale(LC_ALL, "Portuguese");
    int op, n, i;
    node<intSerial> test;
-   //cout << test.toString();
-   test.fromString(test.toString());
+   test.appendValue(1);
+   test.appendValue(2);
+   test.appendValue(3);
+   test.appendChild(8);
+   node<intSerial> teste;
+   teste.fromString(test.toString());
+   cout << endl << teste.print() << endl;
    //Iniciando objeto arquivo e verificando se é válido
    typedFile<intSerial> arq("teste.dat", "BTR", 1);
    //Criando um encapsulador de registro

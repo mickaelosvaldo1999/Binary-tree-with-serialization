@@ -14,7 +14,7 @@ class node
     public:
         node();
         node(bool i);
-        void appendChild(node<T> i);
+        void appendChild(unsigned long long int i);
         void clear();
         string toString();
         void fromString(string repr);
@@ -44,10 +44,6 @@ class node
 
 template <class T>
 string node<T>::toString() {
-    values.push_back(2);
-    values.push_back(3);
-    values.push_back(4);
-    keys.push_back(6);
     unsigned long long int temp;
     string aux;
     unsigned int pos = 0;
@@ -80,8 +76,6 @@ string node<T>::toString() {
         }
     }
 
-    cout << endl << pos << endl;
-    cout << endl << this->size();
     aux.resize(this->size());
     return aux;
 }
@@ -90,28 +84,29 @@ template <class T>
 void node<T>::fromString(string repr) {
     int aux,pos = 0;
     unsigned long long int temp,tempb;
+    T tempC;
     repr.copy(reinterpret_cast<char*>(&leaf), sizeof(leaf), pos);
     pos += sizeof(leaf);
-    cout << endl << "essa folha é " << leaf << endl;
 
     for (int i = 0; i < 5; i++) {
-       repr.copy(reinterpret_cast<char*>(&aux), sizeof(int), pos);
+       repr.copy(reinterpret_cast<char*>(&aux), dataSet.size(), pos);
        pos += dataSet.size();
-       cout << endl << aux << endl;
+       dataSet.setValue(aux);
+       if (dataSet.getValue() != tempC.getValue()) {
+        values.push_back(dataSet);
+       }
+       tempC = dataSet;
     }
-    cout << endl << "----------------" << endl;
+
     for (int i = 0; i < 6; i++) {
        repr.copy(reinterpret_cast<char*>(&temp), sizeof(temp), pos);
        pos += sizeof(temp);
        if (temp != tempb) {
-        values.push_back(temp);
+        keys.push_back(temp);
        }
        tempb = temp;
     }
 
-    for (auto i : keys) {
-        cout << endl << i << endl;
-    }
 }
 
 template <class T>
@@ -126,16 +121,17 @@ bool node<T>::operator<(const node<T> &other) const {
 }
 
 template <class T>
-void node<T>::appendChild(node<T> i) {
+void node<T>::appendChild(unsigned long long int i) {
     keys.push_back(i);
-    //sort(keys.begin(), keys.end());
+    sort(keys.begin(), keys.end());
 }
 
 template <class T>
 string node<T>::print() {
-    stringstream result;
-    copy(values.begin(), values.end(), ostream_iterator<T>(result, " "));
-    string aux = result.str().c_str();
+    string aux;
+    for (auto i : values) {
+        aux += to_string(i.getValue()) + " ";
+    }
     aux = "[ " + aux + "]";
     return aux;
 }

@@ -90,7 +90,7 @@
 	<header.h>
 	<intserial.h>
 
-1674080372 source:/home/mickael/Desktop/TypedFile/main.cpp
+1674085359 source:/home/mickael/Desktop/TypedFile/main.cpp
 	<iostream>
 	<clocale>
 	"header.h"
@@ -117,10 +117,10 @@
 	<header.h>
 	<intserial.h>
 
-1669556610 /home/mickael/Desktop/TypedFile/include/intserial.h
+1674085672 /home/mickael/Desktop/TypedFile/include/intserial.h
 	"serializable.h"
 
-1674001818 source:/home/mickael/Desktop/TypedFile/src/intserial.cpp
+1674085651 source:/home/mickael/Desktop/TypedFile/src/intserial.cpp
 	"intserial.h"
 	<iostream>
 
@@ -129,7 +129,7 @@
 	<iostream>
 	<string>
 
-1674081779 /home/mickael/Desktop/TypedFile/include/node.h
+1674085741 /home/mickael/Desktop/TypedFile/include/node.h
 	<vector>
 	<iostream>
 	<string.h>
