@@ -38,6 +38,7 @@
 		</Compiler>
 		<Unit filename="include/header.h" />
 		<Unit filename="include/intserial.h" />
+		<Unit filename="include/node.h" />
 		<Unit filename="include/record.h" />
 		<Unit filename="include/serializable.h" />
 		<Unit filename="include/tree.h" />

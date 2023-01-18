@@ -4,15 +4,19 @@
 #include "record.h"
 #include "typedfile.h"
 #include "intserial.h"
+#include <tree.h>
+#include <node.h>
 #define minDegree 3
 
 using namespace std;
 
 int main() {
-
    //Setando local e variáveis iniciais.
    setlocale(LC_ALL, "Portuguese");
    int op, n, i;
+   node<intSerial> test;
+   //cout << test.toString();
+   test.fromString(test.toString());
    //Iniciando objeto arquivo e verificando se é válido
    typedFile<intSerial> arq("teste.dat", "BTR", 1);
    //Criando um encapsulador de registro
