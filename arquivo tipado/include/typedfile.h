@@ -36,8 +36,6 @@ class typedFile : private fstream {
     fstream mFile;
     //Cabeçalho da classe
     header rosetta;
-    //Classe record para definir tamanhos
-    record<T> r;
 
    protected:
       bool readHeader(header &h);
@@ -57,7 +55,6 @@ typedFile<T>::typedFile(const string name, const string type, int ver) : fstream
     this->name = name;
     this->type = type;
     this->version = ver;
-    record<T> r;
     //verificando a compatibilidade do header
     this->open();
 }
@@ -143,7 +140,6 @@ bool typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
 
 template <class T>
 bool typedFile<T>::insertRecord(record<T> &r) {
-
     if (rosetta.getFirstDeleted() == 0) {
         //Escrevendo o registro
         return this->writeRecord(r,0);
@@ -161,7 +157,6 @@ bool typedFile<T>::insertRecord(record<T> &r) {
         //Reciclando registro.
         this->writeRecord(r,newR);
     }
-
 }
 
 template <class T>
@@ -264,11 +259,11 @@ bool typedFile<T>::writeHeader(header &h) {
 
 template <class T>
 unsigned long long int typedFile<T>::index2pos(unsigned long long int i) {
-    return (rosetta.size() + ((i - 1)*r.size()));
+    return (rosetta.size() + ((i - 1)*13));
 }
 
 template <class T>
 unsigned long long int typedFile<T>::pos2index(unsigned long long int i) {
-    return ((i - rosetta.size()) / r.size()) + 1;
+    return ((i - rosetta.size()) / 13) + 1;
 }
 #endif // TYPEDFILE_H

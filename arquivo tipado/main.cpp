@@ -4,7 +4,6 @@
 #include "record.h"
 #include "typedfile.h"
 #include "intserial.h"
-#define minDegree 3
 
 using namespace std;
 

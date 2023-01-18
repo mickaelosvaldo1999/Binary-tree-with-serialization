@@ -3,7 +3,6 @@
 
 #include <string>
 #include "serializable.h"
-#include <vector>
 
 using namespace std;
 
@@ -37,9 +36,6 @@ class record : public serializable {
 
    protected:
       T data;
-      vector<unsigned long long int> *keys;
-      vector<T> *values;
-      bool leaf = false;
       bool deleted = false;
       unsigned long long int next = 0;
 };
@@ -119,7 +115,6 @@ void record<T>::undel() {
 
 template <class T>
 string record<T>::toString() {
-
     //Transformando record em string
     string aux;
     unsigned int pos = 0;
@@ -128,25 +123,8 @@ string record<T>::toString() {
     aux.replace(0,sizeof(deleted),reinterpret_cast<char*>(&deleted), sizeof(deleted));
     aux.replace(pos,pos+sizeof(next),reinterpret_cast<char*>(&next), sizeof(next));
     pos += sizeof(next);
-    aux.replace(pos,pos+sizeof(leaf),reinterpret_cast<char*>(&leaf), sizeof(leaf));
-    pos += sizeof(leaf);
     string temp = data.toString();
-    aux.replace(pos,data.size(),data.toString());
-    pos += data.size();
-    for (auto i : this->values) {
-        aux.replace(pos,pos+i.size(), i.toString());
-        pos += i.size();
-    }
-    if (values.size() < 5) {
-        for (auto i = data.size(); i == 5; i++) {
-            pos += data.size();
-        }
-    }
-
-    for (auto i : this->keys) {
-        aux.replace(pos,pos+sizeof(i),reinterpret_cast<char*>(&i), sizeof(i));
-        pos += sizeof(i);
-
+    aux.replace(pos,this->size(),data.toString());
     aux.resize(this->size());
     return aux;
 }
@@ -166,8 +144,8 @@ void record<T>::fromString(string repr) {
 
 template <class T>
 unsigned long long int record<T>::size() const {
-    //tamanho do record
-    return sizeof(deleted) + sizeof(next) + sizeof(int) + sizeof(leaf) + (3*2)*sizeof(unsigned long long int) + ((3*2) - 1)*sizeof(data.size());
+    //tamanho do
+    return sizeof(deleted) + sizeof(next) + sizeof(int);
 }
 
 #endif // RECORD_H

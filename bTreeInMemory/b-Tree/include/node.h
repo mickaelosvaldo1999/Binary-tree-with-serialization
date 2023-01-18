@@ -19,6 +19,7 @@ class node
         vector<T> getValues();
         void setValues(vector<T> i);
         vector<node<T>> getKeys();
+        vector<node<T>>* alterKeys();
         void setKeys(vector<node<T>> i);
         string print();
         bool appendValue(T k);
@@ -76,6 +77,11 @@ void node<T>::setValues(vector<T> i) {
 template <class T>
 vector<node<T>> node<T>::getKeys() {
     return keys;
+}
+
+template <class T>
+vector<node<T>>* node<T>::alterKeys() {
+    return *keys;
 }
 
 template <class T>

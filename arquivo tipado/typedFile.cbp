@@ -40,11 +40,15 @@
 		<Unit filename="include/intserial.h" />
 		<Unit filename="include/record.h" />
 		<Unit filename="include/serializable.h" />
-		<Unit filename="include/tree.h" />
 		<Unit filename="include/typedfile.h" />
+		<!- CodeBlocks-compilerData=MadeByMickael ->
 		<Unit filename="main.cpp" />
 		<Unit filename="src/header.cpp" />
 		<Unit filename="src/intserial.cpp" />
-		<Extensions />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

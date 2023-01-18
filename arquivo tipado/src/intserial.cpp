@@ -89,5 +89,5 @@ void intSerial::fromString(string repr) {
 
 
 unsigned long long int intSerial::size() const {
-    return sizeof(int);
+
 }
