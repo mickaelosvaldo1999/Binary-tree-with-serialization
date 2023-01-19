@@ -1,7 +1,10 @@
 #ifndef TREE_H
 #define TREE_H
 #include <node.h>
+#include <typedfile.h>
+#include <string>
 
+using namespace std;
 template <class T>
 class tree
 {
@@ -19,6 +22,7 @@ class tree
     protected:
 
     private:
+        typedFile<T> arq{"teste.dat", "BTR", 1};
         int minDegree;
         node<T> root;
 

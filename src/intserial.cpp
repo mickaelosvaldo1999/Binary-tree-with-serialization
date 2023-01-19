@@ -4,6 +4,9 @@ intSerial::intSerial() : serializable() {
 
 }
 
+int intSerial::empty() {
+    return 0;
+}
 intSerial::intSerial(int i) : serializable() {
     value = i;
 }
@@ -73,7 +76,8 @@ string intSerial::toString() {
 }
 
 void intSerial::fromString(string repr) {
-
+    int pos = 0;
+    repr.copy(reinterpret_cast<char*>(&value), sizeof(int), pos);
 }
 
 

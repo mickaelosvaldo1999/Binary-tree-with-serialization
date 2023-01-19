@@ -15,17 +15,16 @@ int main() {
    setlocale(LC_ALL, "Portuguese");
    int op, n, i;
    node<intSerial> test;
-   test.appendValue(1);
-   test.appendValue(2);
-   test.appendValue(3);
+   test.appendValue(10);
+   test.appendValue(20);
+   test.appendValue(30);
    test.appendChild(8);
-   node<intSerial> teste;
-   teste.fromString(test.toString());
-   cout << endl << teste.print() << endl;
+
    //Iniciando objeto arquivo e verificando se é válido
-   typedFile<intSerial> arq("teste.dat", "BTR", 1);
+   typedFile<node<intSerial>> arq("teste.dat", "BTR", 1);
    //Criando um encapsulador de registro
-   record<intSerial> r;
+    record<node<intSerial>> r;
+    r.setData(test);
     //TESTE
 
    if (arq.isOpen()) {
@@ -44,7 +43,7 @@ int main() {
             case 1:
                cout << "Digite um número inteiro: ";
                cin >> n;
-               r = record<intSerial>(n);
+               //r = record<node<intSerial>>(teste);
 
                if (arq.insertRecord(r)) {
                     cout << "Valor " << n << " inserido com sucesso.\n" << endl;
@@ -53,7 +52,8 @@ int main() {
             case 2:
                cout << "Digite valor deseja remover do arquivo: ";
                cin >> n;
-               i = arq.search(intSerial(n));
+               //i = arq.search(teste);
+               i = 0;
                if (i != 0) {
                   if (arq.deleteRecord(i))
                      cout << "Valor " << n << " removido do arquivo.\n" << endl;
@@ -66,8 +66,8 @@ int main() {
             case 3:
                cout << "Digite o valor a ser pesquisado: ";
                cin >> n;
-               i = arq.search(intSerial(n));
-               cout << i << endl;
+               //i = arq.search(teste);
+               i = 0;
                if (i != 0)
                   cout << "Valor " << n << " encontrado no registro " << i << ".\n" << endl;
                else
@@ -81,8 +81,8 @@ int main() {
                   cout << "Não existem registros no arquivo.\n" << endl;
                } else {
                   while (i != 0) {
-                     arq.readRecord(r, i);
-                     cout << "- " << r.getData().getValue() << endl;
+                     //arq.readRecord(r, i);
+                     cout << "- " << r.getData().print() << endl;
                      i = r.getNext();
                   }
                   cout << endl;

@@ -24,6 +24,7 @@ class intSerial : serializable {
       virtual string toString();
       virtual void fromString(string repr);
       virtual unsigned long long int size() const;
+      int empty();
 
       virtual string toXML() {return "NotImplemented";};
       virtual void fromXML(string repr) {};
