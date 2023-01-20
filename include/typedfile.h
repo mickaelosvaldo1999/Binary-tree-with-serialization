@@ -111,7 +111,7 @@ void typedFile<T>::clear() {
 template <class T>
 bool typedFile<T>::readRecord(record<T> &r, unsigned long long int i) {
     char *aux = new char[r.size()];
-    mFile.seekg(this->index2pos(i), ios::beg);
+    mFile.seekg(index2pos(i), ios::beg);
     mFile.read(aux, r.size());
     //Passando a string sem truncar com o tamanho pré-determinado
     r.fromString(string(aux, r.size()));

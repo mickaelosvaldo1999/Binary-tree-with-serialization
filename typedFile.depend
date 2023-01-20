@@ -90,7 +90,7 @@
 	<header.h>
 	<intserial.h>
 
-1674171068 source:/home/mickael/Desktop/TypedFile/main.cpp
+1674248253 source:/home/mickael/Desktop/TypedFile/main.cpp
 	<iostream>
 	<clocale>
 	"header.h"
@@ -106,11 +106,11 @@
 1669556610 /home/mickael/Desktop/TypedFile/include/serializable.h
 	<string>
 
-1674088063 /home/mickael/Desktop/TypedFile/include/record.h
+1674229462 /home/mickael/Desktop/TypedFile/include/record.h
 	<string>
 	"serializable.h"
 
-1674088323 /home/mickael/Desktop/TypedFile/include/typedfile.h
+1674183734 /home/mickael/Desktop/TypedFile/include/typedfile.h
 	<fstream>
 	<type_traits>
 	<string>
@@ -129,14 +129,14 @@
 	<iostream>
 	<string>
 
-1674171240 /home/mickael/Desktop/TypedFile/include/node.h
+1674229553 /home/mickael/Desktop/TypedFile/include/node.h
 	<serializable.h>
 	<vector>
 	<iostream>
-	<string.h>
+	<string>
 	<algorithm>
 
-1674171586 /home/mickael/Desktop/TypedFile/include/tree.h
+1674248368 /home/mickael/Desktop/TypedFile/include/tree.h
 	<node.h>
 	<typedfile.h>
 	<string>

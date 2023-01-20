@@ -14,12 +14,14 @@ int main() {
    //Setando local e variáveis iniciais.
    setlocale(LC_ALL, "Portuguese");
    int op, n, i;
+   tree<intSerial> arvore(minDegree);
    node<intSerial> test;
    test.appendValue(10);
    test.appendValue(20);
    test.appendValue(30);
    test.appendChild(8);
-
+   node<intSerial> teste;
+   teste.fromString(test.toString());
    //Iniciando objeto arquivo e verificando se é válido
    typedFile<node<intSerial>> arq("teste.dat", "BTR", 1);
    //Criando um encapsulador de registro
@@ -35,7 +37,7 @@ int main() {
               << "1. Inserir um registro\n"
               << "2. Excluir um registro\n"
               << "3. Pesquisar um registro\n"
-              << "4. Listar todos os registros\n"
+              << "4. Printar árvore\n"
               << "5. Sair\n\n"
               << "Sua opção: ";
          cin >> op;
@@ -43,9 +45,8 @@ int main() {
             case 1:
                cout << "Digite um número inteiro: ";
                cin >> n;
-               //r = record<node<intSerial>>(teste);
 
-               if (arq.insertRecord(r)) {
+               if (arvore.insert(n)) {
                     cout << "Valor " << n << " inserido com sucesso.\n" << endl;
                }
                break;
@@ -76,23 +77,14 @@ int main() {
                break;
             case 4:
                cout << "Listando todos os registros válidos do arquivo: " << endl;
-               i = arq.getFirstValid();
-               if (i == 0) {
-                  cout << "Não existem registros no arquivo.\n" << endl;
-               } else {
-                  while (i != 0) {
-                     //arq.readRecord(r, i);
-                     cout << "- " << r.getData().print() << endl;
-                     i = r.getNext();
-                  }
-                  cout << endl;
-               }
+               arvore.print();
 
                break;
             case 5:
                cout << "Encerrando o programa... ";
                arq.close();
-               cout << "concluído." << endl;
+               arvore.close();
+;               cout << "concluído." << endl;
                return 0;
                break;
             default:

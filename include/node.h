@@ -3,7 +3,7 @@
 #include <serializable.h>
 #include <vector>
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <algorithm>
 
 using namespace std;
@@ -46,7 +46,6 @@ class node: public serializable {
         bool leaf = false;
         vector<T> values;
         vector<unsigned long long int> keys;
-        string testes;
 
 };
 
@@ -96,16 +95,15 @@ string node<T>::toString() {
 template <class T>
 void node<T>::fromString(string repr) {
     int pos = 0;
-    int aux;
+
     unsigned long long int temp,tempb;
     repr.copy(reinterpret_cast<char*>(&leaf), sizeof(leaf), pos);
     pos += sizeof(leaf);
 
     //pode ter problemas no futuro aqui
     for (int i = 0; i < 5; i++) {
-       repr.copy(reinterpret_cast<char*>(&this->testes), dataSet.size(), pos);
+       dataSet.fromString(repr.substr(pos, dataSet.size()));
        pos += dataSet.size();
-       dataSet.setValue(aux);
        if (dataSet.getValue() != dataSet.empty()) {
         values.push_back(dataSet);
        }
