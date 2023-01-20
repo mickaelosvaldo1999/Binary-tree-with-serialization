@@ -146,7 +146,7 @@ bool typedFile<T>::insertRecord(record<T> &r) {
 
     if (rosetta.getFirstDeleted() == 0) {
         //Escrevendo o registro
-        return this->writeRecord(r,0);
+        return writeRecord(r,0);
     } else {
         //lendo o ultimo deletado e obtendo sua posição
         unsigned long long int newR = rosetta.getFirstDeleted();
@@ -159,7 +159,7 @@ bool typedFile<T>::insertRecord(record<T> &r) {
         //Reciclando valor do registro
         rosetta.setFirstValid(newR);
         //Reciclando registro.
-        this->writeRecord(r,newR);
+        return writeRecord(r,newR);
     }
 
 }

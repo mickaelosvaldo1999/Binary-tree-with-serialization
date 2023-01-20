@@ -44,10 +44,10 @@ int main() {
          switch (op) {
             case 1:
                cout << "Digite um número inteiro: ";
-               cin >> n;
-
+                cin >> n;
                if (arvore.insert(n)) {
                     cout << "Valor " << n << " inserido com sucesso.\n" << endl;
+                    arvore.print();
                }
                break;
             case 2:

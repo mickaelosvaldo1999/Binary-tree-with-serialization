@@ -139,7 +139,6 @@ void record<T>::fromString(string repr) {
     repr.copy(reinterpret_cast<char*>(&next), sizeof(next), pos);
     pos += sizeof(next);
     data.fromString(repr.substr(pos,size()));
-    cout << next << " deleted: " << deleted << " dados: " << data.print() << endl;
 }
 
 template <class T>

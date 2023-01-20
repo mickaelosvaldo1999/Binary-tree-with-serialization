@@ -26,8 +26,7 @@ class tree
     private:
         typedFile<node<T>> arq{"tree.dat", "BTR", 1};
         int minDegree;
-        unsigned long long int rootKey = arq.getFirstValid();
-        node<T> root;
+        unsigned long long int rootKey;
 
 };
 
@@ -70,10 +69,16 @@ void tree<T>::splitChild(node<T> &i) {
 
 template <class T>
 void tree<T>::print() {
+    //vetores auxiliares
     bool aux = true;
     vector<node<T>> level;
     vector<node<T>> temp;
+    //carregando a raiz
+    node<T> root;
+    readNode(root,rootKey);
     level.push_back(root);
+
+    //printando a linha
     string line = "";
     while (aux) {
         for (node<T> i : level) {
@@ -111,6 +116,9 @@ unsigned long long int tree<T>::writeNode(node<T> n, unsigned long long int i) {
 
 template <class T>
 bool tree<T>::insert(T k) {
+    //carregando a raiz
+    node<T> root;
+    readNode(root,rootKey);
     //Verificando se a raiz não está cheia
     if (isFull(root)) {
         cout << endl << "Fudeu" << endl;
@@ -185,15 +193,16 @@ tree<T>::tree(int i) {
     if (arq.isOpen()) {
         //Raiz não existe
         if (arq.getFirstValid() == 0) {
+            //carregando a raiz
+            node<T> root;
             root.setLeaf(true);
             record<node<T>> r;
             r.setData(root);
             arq.insertRecord(r);
+            rootKey = 1;
         } else {
             //Raiz existe
-            record<node<T>> r;
-            arq.readRecord(r, rootKey);
-            root = r.getData();
+            rootKey = arq.getFirstValid();
 ;        }
     } else {
       cout << "Não foi possível abrir o arquivo!" << endl;
