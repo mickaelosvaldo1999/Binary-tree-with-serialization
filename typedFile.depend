@@ -117,10 +117,10 @@
 	<header.h>
 	<intserial.h>
 
-1674325006 /home/mickael/Desktop/TypedFile/include/intserial.h
+1674326061 /home/mickael/Desktop/TypedFile/include/intserial.h
 	"serializable.h"
 
-1674320866 source:/home/mickael/Desktop/TypedFile/src/intserial.cpp
+1674326282 source:/home/mickael/Desktop/TypedFile/src/intserial.cpp
 	"intserial.h"
 	<iostream>
 

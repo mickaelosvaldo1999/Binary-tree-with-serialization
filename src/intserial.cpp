@@ -24,7 +24,7 @@ intSerial intSerial::operator=(const intSerial &other) {
 }
 
 bool intSerial::operator==(const intSerial &other) const {
-    return value = other
+    return value == other.getValue();
 }
 
 
@@ -64,8 +64,8 @@ void intSerial::setValue(int v) {
     value = v;
 }
 
-int intSerial::getValue() {
-    return this->value;
+int intSerial::getValue() const {
+    return value;
 }
 
 string intSerial::toString() {

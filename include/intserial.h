@@ -20,7 +20,7 @@ class intSerial : serializable {
       intSerial operator++();
       intSerial operator--();
       void setValue(int v);
-      int getValue();
+      int getValue() const;
       virtual string toString();
       virtual void fromString(string repr);
       virtual unsigned long long int size() const;
