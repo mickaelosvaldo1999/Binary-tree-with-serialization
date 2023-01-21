@@ -18,7 +18,7 @@ class node: public serializable {
         void clear();
         string toString();
         void fromString(string repr);
-        vector<T> getValues();
+        vector<T> getValues() const;
         void setValues(vector<T> i);
         vector<unsigned long long int> getKeys();
         void setKeys(vector<unsigned long long int> i);
@@ -114,7 +114,6 @@ void node<T>::fromString(string repr) {
        repr.copy(reinterpret_cast<char*>(&temp), sizeof(temp), pos);
        pos += sizeof(temp);
        if (temp != 0) {
-        cout << endl << temp;
         keys.push_back(temp);
        }
     }
@@ -129,13 +128,13 @@ void node<T>::clear() {
 
 template <class T>
 bool node<T>::operator<(const node<T> &other) const {
-    return values[0] < other.getValues()[0];
+    return true;
+    //return values[0] < other.getValues()[0];
 }
 
 template <class T>
 void node<T>::appendChild(unsigned long long int i) {
     keys.push_back(i);
-    sort(keys.begin(), keys.end());
 }
 
 template <class T>
@@ -149,7 +148,7 @@ string node<T>::print() {
 }
 
 template <class T>
-vector<T> node<T>::getValues() {
+vector<T> node<T>::getValues() const {
     return values;
 }
 

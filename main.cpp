@@ -67,10 +67,10 @@ int main() {
             case 3:
                cout << "Digite o valor a ser pesquisado: ";
                cin >> n;
-               //i = arq.search(teste);
-               i = 0;
-               if (i != 0)
-                  cout << "Valor " << n << " encontrado no registro " << i << ".\n" << endl;
+               bool aux;
+               aux = arvore.search(n);
+               if (aux)
+                  cout << "Valor " << n << " encontrado no registro " << endl;
                else
                   cout << "Valor " << n << " não encontrado.\n" << endl;
 

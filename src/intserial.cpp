@@ -12,7 +12,7 @@ intSerial::intSerial(int i) : serializable() {
 }
 
 intSerial::intSerial(const intSerial &other) {
-    this->setValue(other.getValue());
+    setValue(other.getValue());
 }
 
 intSerial::~intSerial() {
@@ -24,7 +24,7 @@ intSerial intSerial::operator=(const intSerial &other) {
 }
 
 bool intSerial::operator==(const intSerial &other) const {
-
+    return value = other
 }
 
 
@@ -64,7 +64,7 @@ void intSerial::setValue(int v) {
     value = v;
 }
 
-int intSerial::getValue() const {
+int intSerial::getValue() {
     return this->value;
 }
 

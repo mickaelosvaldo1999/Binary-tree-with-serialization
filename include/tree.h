@@ -19,7 +19,10 @@ class tree
         vector<node<T>> splitChild(node<T> &i);
         bool readNode(node<T> &n, unsigned long long int i);
         bool writeNode(node<T> n, unsigned long long int i);
+        void sortChild(node<T> n);
         unsigned long long int insertNode(node<T> n);
+        bool search(T value);
+        bool searchLoop(unsigned long long int k, T value);
         void close();
 
     protected:
@@ -121,6 +124,22 @@ bool tree<T>::writeNode(node<T> n, unsigned long long int i) {
     return true;
 }
 
+template <class T>
+void tree<T>::sortChild(node<T> n) {
+    /***
+    vector<node<T>> aux;
+    node<T> temp;
+    for (auto i : n.getKeys()) {
+        aux.push_back(readNode(temp,i));
+    }
+    //sort(aux.begin(), aux.end());
+    int counter = 0;
+    for (auto i : n.getKeys()) {
+        //writeNode(aux[counter], i);
+        counter++;
+    }
+    ***/
+}
 
 template <class T>
 bool tree<T>::insert(T k) {
@@ -159,7 +178,7 @@ bool tree<T>::loopInsert(unsigned long long int k, T value) {
 
         //declarando variável do nó abaixo
         node<T> nBelow;
-        cout << endl << "TODO" << endl;
+
         int counter = 0;
         for (auto i : n.getValues()) {
             //valor menor possui mesmo índice
@@ -190,6 +209,7 @@ bool tree<T>::loopInsert(unsigned long long int k, T value) {
                     n.appendValue(inserter[0].getValues()[0]);
                     writeNode(inserter[1],keys);
                     n.appendChild(insertNode(inserter[2]));
+                    sortChild(n);
                     writeNode(n,k);
                     return loopInsert(k,value);
 
@@ -197,10 +217,66 @@ bool tree<T>::loopInsert(unsigned long long int k, T value) {
                 else {
                     return loopInsert(keys,value);
                 }
-                counter += 1;
             }
+            //controle de contagem de i
+            counter += 1;
         }
     }
+}
+
+template <class T>
+bool tree<T>::search(T value) {
+    //carregando a raiz
+    return searchLoop(rootKey,value);
+}
+
+template <class T>
+bool tree<T>::searchLoop(unsigned long long int k, T value) {
+    //lendo registro
+    node<T> n;
+    readNode(n,k);
+
+    if (n.isLeaf()) {
+            for (auto i : n.getValues()) {
+                if (i == value) {
+                    return true;
+                }
+            }
+            return false;
+            }
+        else {
+
+        //declarando variável do nó abaixo
+
+        int counter = 0;
+        for (auto i : n.getValues()) {
+            //valor menor possui mesmo índice
+
+            if (value < i || i == n.getValues().back()) {
+
+                unsigned long long int keys;
+                if (value < i) {
+                    //verificando maior chave
+                    keys = n.getKeys()[counter];
+                    }
+                //caso especial, o valor é maior que todos os outros
+                else if (i == n.getValues().back()) {
+                    //verificando maior chave
+                    keys = n.getKeys().back();
+                    }
+
+                else if (value == i) {
+                    return true;
+                }
+
+                return searchLoop(keys,value);
+            }
+            //controle de contagem de i
+            counter += 1;
+        }
+    }
+
+
 }
 
 template <class T>
