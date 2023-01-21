@@ -3,7 +3,7 @@
 #include "header.h"
 #include "record.h"
 #include "typedfile.h"
-#include "intserial.h"
+#include "serialCurrency.h"
 #include <tree.h>
 #include <node.h>
 #define minDegree 3
@@ -14,22 +14,11 @@ int main() {
    //Setando local e variáveis iniciais.
    setlocale(LC_ALL, "Portuguese");
    int op, n, i;
-   tree<intSerial> arvore(minDegree);
-   node<intSerial> test;
-   test.appendValue(10);
-   test.appendValue(20);
-   test.appendValue(30);
-   test.appendChild(8);
-   node<intSerial> teste;
-   teste.fromString(test.toString());
-   //Iniciando objeto arquivo e verificando se é válido
-   typedFile<node<intSerial>> arq("teste.dat", "BTR", 1);
-   //Criando um encapsulador de registro
-    record<node<intSerial>> r;
-    r.setData(test);
-    //TESTE
 
-   if (arq.isOpen()) {
+   //Criando árvore
+   tree<serialCurrency> arvore(minDegree);
+
+   if (arvore.isOpen()) {
       cout << "Arquivo aberto com sucesso!\n\n";
 
       do {
@@ -52,6 +41,7 @@ int main() {
                break;
             case 2:
                cout << "Digite valor deseja remover do arquivo: ";
+               /***
                cin >> n;
                //i = arq.search(teste);
                i = 0;
@@ -63,6 +53,7 @@ int main() {
                } else {
                   cout << "Valor " << n << " não encontrado no arquivo\n" << endl;
                }
+               ***/
                break;
             case 3:
                cout << "Digite o valor a ser pesquisado: ";
@@ -82,7 +73,6 @@ int main() {
                break;
             case 5:
                cout << "Encerrando o programa... ";
-               arq.close();
                arvore.close();
 ;               cout << "concluído." << endl;
                return 0;

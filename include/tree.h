@@ -24,6 +24,7 @@ class tree
         unsigned long long int insertNode(node<T> n);
         bool search(T value);
         bool searchLoop(unsigned long long int k, T value);
+        bool isOpen();
         void close();
 
     protected:
@@ -333,6 +334,11 @@ unsigned long long int tree<T>::insertNode(node<T> n) {
     record<node<T>> r;
     r.setData(n);
     return arq.insertRecord(r);
+}
+
+template <class T>
+bool tree<T>::isOpen() {
+    return arq.isOpen();
 }
 
 template <class T>

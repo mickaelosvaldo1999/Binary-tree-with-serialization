@@ -142,3 +142,10 @@
 	<string>
 	<algorithm>
 
+1674343016 source:/home/mickael/Desktop/TypedFile/src/serialCurrency.cpp
+	"serialCurrency.h"
+	<iostream>
+
+1674343236 /home/mickael/Desktop/TypedFile/include/serialCurrency.h
+	"serializable.h"
+
