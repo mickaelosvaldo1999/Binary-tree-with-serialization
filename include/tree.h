@@ -3,6 +3,7 @@
 #include <node.h>
 #include <typedfile.h>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 template <class T>
@@ -126,19 +127,21 @@ bool tree<T>::writeNode(node<T> n, unsigned long long int i) {
 
 template <class T>
 void tree<T>::sortChild(node<T> n) {
-    /***
+
     vector<node<T>> aux;
     node<T> temp;
     for (auto i : n.getKeys()) {
-        aux.push_back(readNode(temp,i));
+        readNode(temp,i);
+        aux.push_back(temp);
     }
-    //sort(aux.begin(), aux.end());
+
+    sort(aux.begin(), aux.end());
+
     int counter = 0;
     for (auto i : n.getKeys()) {
-        //writeNode(aux[counter], i);
+        writeNode(aux[counter], i);
         counter++;
     }
-    ***/
 }
 
 template <class T>
@@ -209,8 +212,8 @@ bool tree<T>::loopInsert(unsigned long long int k, T value) {
                     n.appendValue(inserter[0].getValues()[0]);
                     writeNode(inserter[1],keys);
                     n.appendChild(insertNode(inserter[2]));
-                    sortChild(n);
                     writeNode(n,k);
+                    sortChild(n);
                     return loopInsert(k,value);
 
                 }

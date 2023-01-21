@@ -129,15 +129,16 @@
 	<iostream>
 	<string>
 
-1674325155 /home/mickael/Desktop/TypedFile/include/node.h
+1674328916 /home/mickael/Desktop/TypedFile/include/node.h
 	<serializable.h>
 	<vector>
 	<iostream>
 	<string>
 	<algorithm>
 
-1674325253 /home/mickael/Desktop/TypedFile/include/tree.h
+1674334177 /home/mickael/Desktop/TypedFile/include/tree.h
 	<node.h>
 	<typedfile.h>
 	<string>
+	<algorithm>
 

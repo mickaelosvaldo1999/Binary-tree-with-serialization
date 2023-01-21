@@ -128,8 +128,7 @@ void node<T>::clear() {
 
 template <class T>
 bool node<T>::operator<(const node<T> &other) const {
-    return true;
-    //return values[0] < other.getValues()[0];
+    return values[0] < other.getValues()[0];
 }
 
 template <class T>
