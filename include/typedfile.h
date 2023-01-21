@@ -22,8 +22,8 @@ class typedFile : private fstream {
       void close();
       void clear();
       bool readRecord(record<T> &r, unsigned long long int i);
-      bool writeRecord(record<T> &r, unsigned long long int i);
-      bool insertRecord(record<T> &r);
+      unsigned long long int writeRecord(record<T> &r, unsigned long long int i);
+      unsigned long long int insertRecord(record<T> &r);
       bool deleteRecord(unsigned long long int i);
       unsigned long long int getFirstValid();
       unsigned long long int getFirstDeleted();
@@ -119,30 +119,32 @@ bool typedFile<T>::readRecord(record<T> &r, unsigned long long int i) {
 }
 
 template <class T>
-bool typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
+unsigned long long int typedFile<T>::writeRecord(record<T> &r, unsigned long long int i) {
     if (i == 0) {
         cout << "Alocando mais memória para registros" << endl;
         //Verificando ultima posição do arquivo
         mFile.seekp(0, ios::end);
         //setando  record para pegar o ultimo válido
-        r.setNext(rosetta.getFirstValid());
-        rosetta.setFirstValid(this->pos2index(mFile.tellp()));
+        // -- r.setNext(rosetta.getFirstValid());
+        i = pos2index(mFile.tellp());
+        if (rosetta.getFirstValid() == 0) {
+            rosetta.setFirstValid(i);
+        }
         //escrevendo de fato no arquivo
         mFile.write(r.toString().c_str(),r.size());
-        this->writeHeader(rosetta);
-        return true;
+        writeHeader(rosetta);
+        return i;
     } else {
         //escrevendo de fato o registro
         mFile.seekp(this->index2pos(i));
         mFile.write(r.toString().c_str(),r.size());
-        this->writeHeader(rosetta);
-        return true;
+        writeHeader(rosetta);
+        return i;
     }
-    return false;
 };
 
 template <class T>
-bool typedFile<T>::insertRecord(record<T> &r) {
+unsigned long long int typedFile<T>::insertRecord(record<T> &r) {
 
     if (rosetta.getFirstDeleted() == 0) {
         //Escrevendo o registro
@@ -151,13 +153,13 @@ bool typedFile<T>::insertRecord(record<T> &r) {
         //lendo o ultimo deletado e obtendo sua posição
         unsigned long long int newR = rosetta.getFirstDeleted();
         record<T> aux;
-        this->readRecord(aux,rosetta.getFirstDeleted());
+        readRecord(aux,rosetta.getFirstDeleted());
         //Setando o ultimo deletado
         rosetta.setFirstDeleted(aux.getNext());
         //Verificando primeiro valor válido
-        r.setNext(rosetta.getFirstValid());
+        // -- r.setNext(rosetta.getFirstValid());
         //Reciclando valor do registro
-        rosetta.setFirstValid(newR);
+        // -rosetta.setFirstValid(newR);
         //Reciclando registro.
         return writeRecord(r,newR);
     }

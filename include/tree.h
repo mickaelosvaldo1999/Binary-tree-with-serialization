@@ -16,9 +16,10 @@ class tree
         bool loopInsert(unsigned long long int, T k);
         bool isFull(node<T> i);
         bool isEmpty(node<T> i);
-        void splitChild(node<T> &i);
+        vector<node<T>> splitChild(node<T> &i);
         bool readNode(node<T> &n, unsigned long long int i);
-        unsigned long long int writeNode(node<T> n, unsigned long long int i);
+        bool writeNode(node<T> n, unsigned long long int i);
+        unsigned long long int insertNode(node<T> n);
         void close();
 
     protected:
@@ -31,10 +32,11 @@ class tree
 };
 
 template <class T>
-void tree<T>::splitChild(node<T> &i) {
+vector<node<T>> tree<T>::splitChild(node<T> &i) {
     //definindo vetores auxiliares
     vector<T> aux;
-    vector<node<T>> auxA;
+    vector<unsigned long long int> auxA;
+
     auto temp = i.getValues();
     auto keys = i.getKeys();
     node<T> tempA(i.isLeaf());
@@ -48,6 +50,7 @@ void tree<T>::splitChild(node<T> &i) {
     copy(temp.begin() + (((2*minDegree)-1)/2) + 1, temp.end(), back_inserter(aux));
     tempB.setValues(aux);
 
+    //verificação otimizada de nó não folha
     if (!tempA.isLeaf()) {
         copy(keys.begin(), keys.begin() + (((2*minDegree))/2), back_inserter(auxA));
         tempA.setKeys(auxA);
@@ -59,12 +62,15 @@ void tree<T>::splitChild(node<T> &i) {
 
     //limpando daddos
     i.clear();
-    //inserindo chaves
+    //inserindo valores
     i.appendValue(temp[(((2*minDegree)-1)/2)]);
-    i.appendChild(tempA);
-    i.appendChild(tempB);
-    //cout << "--";
 
+    //criando vetor de sada
+    vector<node<T>> tempC;
+    tempC.push_back(i);
+    tempC.push_back(tempA);
+    tempC.push_back(tempB);
+    return tempC;
 }
 
 template <class T>
@@ -73,6 +79,7 @@ void tree<T>::print() {
     bool aux = true;
     vector<node<T>> level;
     vector<node<T>> temp;
+
     //carregando a raiz
     node<T> root;
     readNode(root,rootKey);
@@ -84,7 +91,8 @@ void tree<T>::print() {
         for (node<T> i : level) {
             line += i.print();
             for (auto j : i.getKeys()) {
-                temp.push_back(j);
+                readNode(root,j);
+                temp.push_back(root);
             }
         }
         cout << line << endl;
@@ -106,11 +114,11 @@ bool tree<T>::readNode(node<T> &n, unsigned long long int i) {
     return true;
 }
 template <class T>
-unsigned long long int tree<T>::writeNode(node<T> n, unsigned long long int i) {
+bool tree<T>::writeNode(node<T> n, unsigned long long int i) {
     record<node<T>> r;
     r.setData(n);
     arq.writeRecord(r,i);
-    return 2;
+    return true;
 }
 
 
@@ -119,10 +127,14 @@ bool tree<T>::insert(T k) {
     //carregando a raiz
     node<T> root;
     readNode(root,rootKey);
-    //Verificando se a raiz não está cheia
+    //Verificando se a raiz está cheia
     if (isFull(root)) {
-        cout << endl << "Fudeu" << endl;
-        //splitChild(root);
+        //inserindo nova raiz
+        vector<node<T>> aux;
+        aux = splitChild(root);
+        aux[0].appendChild(insertNode(aux[1]));
+        aux[0].appendChild(insertNode(aux[2]));
+        writeNode(aux[0],rootKey);
 
     }
     //Começando a recurssão pela raiz
@@ -132,29 +144,60 @@ bool tree<T>::insert(T k) {
 template <class T>
 bool tree<T>::loopInsert(unsigned long long int k, T value) {
     //lendo registro
-    node<T> node;
-    readNode(node,k);
+    node<T> n;
+    readNode(n,k);
 
-    if (node.isLeaf()) {
-            cout << endl << "append de " << value.getValue();
-            node.appendValue(value);
-            writeNode(node,k);
-            cout << endl << node.print();
+
+    if (n.isLeaf()) {
+            //o nó é folha
+            n.appendValue(value);
+            writeNode(n,k);
+            cout << endl << n.print();
             return true;
             }
         else {
+
+        //declarando variável do nó abaixo
+        node<T> nBelow;
         cout << endl << "TODO" << endl;
-        for (auto i : node.getValues()) {
-            if (value < i) {
-                cout << "menor que ";
-            } else if (i == node.getValues().back()) {
-                auto k = node.getKeys().back();
-                if (isFull(k)) {
+        int counter = 0;
+        for (auto i : n.getValues()) {
+            //valor menor possui mesmo índice
+
+            if (value < i || i == n.getValues().back()) {
+
+                unsigned long long int keys;
+                if (value < i) {
+                    //verificando maior chave
+                    keys = n.getKeys()[counter];
+                    readNode(nBelow,keys);
+
+                    }
+                //caso especial, o valor é maior que todos os outros
+                else if (i == n.getValues().back()) {
+                    //verificando maior chave
+                    keys = n.getKeys().back();
+                    readNode(nBelow,keys);
+                    }
+
+                //a página abaixo está cheia
+                if (isFull(nBelow)) {
+                    //fazendo o split
+                    vector<node<T>> inserter;
                     cout << endl << "Split";
+                    inserter = splitChild(nBelow);
+
+                    n.appendValue(inserter[0].getValues()[0]);
+                    writeNode(inserter[1],keys);
+                    n.appendChild(insertNode(inserter[2]));
+                    writeNode(n,k);
+                    return loopInsert(k,value);
+
                 }
                 else {
-                    return loopInsert(k,value);
+                    return loopInsert(keys,value);
                 }
+                counter += 1;
             }
         }
     }
@@ -196,10 +239,7 @@ tree<T>::tree(int i) {
             //carregando a raiz
             node<T> root;
             root.setLeaf(true);
-            record<node<T>> r;
-            r.setData(root);
-            arq.insertRecord(r);
-            rootKey = 1;
+            rootKey = insertNode(root);
         } else {
             //Raiz existe
             rootKey = arq.getFirstValid();
@@ -207,6 +247,13 @@ tree<T>::tree(int i) {
     } else {
       cout << "Não foi possível abrir o arquivo!" << endl;
       }
+}
+
+template <class T>
+unsigned long long int tree<T>::insertNode(node<T> n) {
+    record<node<T>> r;
+    r.setData(n);
+    return arq.insertRecord(r);
 }
 
 template <class T>

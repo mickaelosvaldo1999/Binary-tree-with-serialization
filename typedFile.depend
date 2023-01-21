@@ -110,7 +110,7 @@
 	<string>
 	"serializable.h"
 
-1674183734 /home/mickael/Desktop/TypedFile/include/typedfile.h
+1674258551 /home/mickael/Desktop/TypedFile/include/typedfile.h
 	<fstream>
 	<type_traits>
 	<string>
@@ -129,14 +129,14 @@
 	<iostream>
 	<string>
 
-1674229553 /home/mickael/Desktop/TypedFile/include/node.h
+1674256789 /home/mickael/Desktop/TypedFile/include/node.h
 	<serializable.h>
 	<vector>
 	<iostream>
 	<string>
 	<algorithm>
 
-1674249609 /home/mickael/Desktop/TypedFile/include/tree.h
+1674273332 /home/mickael/Desktop/TypedFile/include/tree.h
 	<node.h>
 	<typedfile.h>
 	<string>

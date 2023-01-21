@@ -80,6 +80,7 @@ string node<T>::toString() {
         temp = i;
         pos += sizeof(i);
     }
+    temp = 0;
     if (keys.size() < 6) {
         for (auto i = keys.size(); i < 6; i++) {
             aux.replace(pos,sizeof(temp),reinterpret_cast<char*>(&temp), sizeof(temp));
@@ -96,7 +97,7 @@ template <class T>
 void node<T>::fromString(string repr) {
     int pos = 0;
 
-    unsigned long long int temp,tempb;
+    unsigned long long int temp;
     repr.copy(reinterpret_cast<char*>(&leaf), sizeof(leaf), pos);
     pos += sizeof(leaf);
 
@@ -112,10 +113,10 @@ void node<T>::fromString(string repr) {
     for (int i = 0; i < 6; i++) {
        repr.copy(reinterpret_cast<char*>(&temp), sizeof(temp), pos);
        pos += sizeof(temp);
-       if (temp != tempb) {
+       if (temp != 0) {
+        cout << endl << temp;
         keys.push_back(temp);
        }
-       tempb = temp;
     }
 
 }
