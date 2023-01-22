@@ -16,11 +16,15 @@ class tree
         bool insert(T k);
         void print();
         bool loopInsert(unsigned long long int, T k);
+        bool loopRemove(unsigned long long int i,T value);
         bool isFull(node<T> i);
         bool isEmpty(node<T> i);
         vector<node<T>> splitChild(node<T> &i);
+        node<T> mergeChild(node<T> keyA, node<T> keyB);
         bool readNode(node<T> &n, unsigned long long int i);
         bool writeNode(node<T> n, unsigned long long int i);
+        bool removeNode(unsigned long long int k);
+        bool remove(T value);
         void sortChild(node<T> n);
         unsigned long long int insertNode(node<T> n);
         bool search(T value);
@@ -36,6 +40,7 @@ class tree
         unsigned long long int rootKey;
 
 };
+
 
 template <class T>
 vector<node<T>> tree<T>::splitChild(node<T> &i) {
@@ -80,6 +85,22 @@ vector<node<T>> tree<T>::splitChild(node<T> &i) {
 }
 
 template <class T>
+node<T> tree<T>::mergeChild(node<T> keyA, node<T> keyB) {
+    //Juntando os dois nodes
+    for (auto i : keyB.getValues()) {
+        keyA.appendValue(i);
+    }
+
+    for (auto i : keyB.getKeys()) {
+        keyA.appendChild(i);
+    }
+
+    //sortChild(keyA);
+    return keyA;
+
+}
+
+template <class T>
 void tree<T>::print() {
     //vetores auxiliares
     bool aux = true;
@@ -119,11 +140,18 @@ bool tree<T>::readNode(node<T> &n, unsigned long long int i) {
     n = r.getData();
     return true;
 }
+
 template <class T>
 bool tree<T>::writeNode(node<T> n, unsigned long long int i) {
     record<node<T>> r;
     r.setData(n);
     arq.writeRecord(r,i);
+    return true;
+}
+
+template <class T>
+bool tree<T>::removeNode(unsigned long long int i) {
+    arq.deleteRecord(i);
     return true;
 }
 
@@ -148,21 +176,28 @@ void tree<T>::sortChild(node<T> n) {
 
 template <class T>
 bool tree<T>::insert(T k) {
-    //carregando a raiz
-    node<T> root;
-    readNode(root,rootKey);
-    //Verificando se a raiz está cheia
-    if (isFull(root)) {
-        //inserindo nova raiz
-        vector<node<T>> aux;
-        aux = splitChild(root);
-        aux[0].appendChild(insertNode(aux[1]));
-        aux[0].appendChild(insertNode(aux[2]));
-        writeNode(aux[0],rootKey);
 
-    }
+        if (!search(k)) {
+        //carregando a raiz
+        node<T> root;
+        readNode(root,rootKey);
+        //Verificando se a raiz está cheia
+        if (isFull(root)) {
+            //inserindo nova raiz
+            vector<node<T>> aux;
+            aux = splitChild(root);
+            aux[0].appendChild(insertNode(aux[1]));
+            aux[0].appendChild(insertNode(aux[2]));
+            writeNode(aux[0],rootKey);
+
+        }
     //Começando a recurssão pela raiz
     return loopInsert(rootKey,k);
+    }
+    else {
+        cerr << endl << "Não é possível inserir duplicatas: " << k.getValue() << endl;
+        return false;
+    }
 }
 
 template <class T>
@@ -176,7 +211,6 @@ bool tree<T>::loopInsert(unsigned long long int k, T value) {
             //o nó é folha
             n.appendValue(value);
             writeNode(n,k);
-            cout << endl << n.print();
             return true;
             }
         else {
@@ -208,7 +242,6 @@ bool tree<T>::loopInsert(unsigned long long int k, T value) {
                 if (isFull(nBelow)) {
                     //fazendo o split
                     vector<node<T>> inserter;
-                    cout << endl << "Split";
                     inserter = splitChild(nBelow);
 
                     n.appendValue(inserter[0].getValues()[0]);
@@ -221,6 +254,151 @@ bool tree<T>::loopInsert(unsigned long long int k, T value) {
                 }
                 else {
                     return loopInsert(keys,value);
+                }
+            }
+            //controle de contagem de i
+            counter += 1;
+        }
+    }
+    return false;
+}
+
+template <class T>
+bool tree<T>::remove(T k) {
+    if (search(k)) {
+        //carregando a raiz
+        node<T> root;
+        readNode(root,rootKey);
+        //Começando a recurssão pela raiz
+        return loopRemove(rootKey,k);
+    }
+    else {
+        cerr << endl << "O valor descrito não existe: " << k.getValue() << endl;
+        return false;
+    }
+}
+
+
+template <class T>
+bool tree<T>::loopRemove(unsigned long long int k, T value) {
+
+     //lendo registro
+    node<T> n;
+    readNode(n,k);
+
+
+    if (n.isLeaf()) {
+            //o nó é folha
+            n.removeValue(value);
+            writeNode(n,k);
+            return true;
+            }
+
+        else {
+
+        //declarando variável do nó abaixo
+        node<T> nBelow;
+        node<T> nBelowSide;
+
+        int counter = 0;
+        for (auto i : n.getValues()) {
+            //valor menor possui mesmo índice
+
+            if (value < i || i == n.getValues().back() || value == i) {
+
+                unsigned long long int keys;
+
+                //Valor está na página interna
+                if (value == i) {
+                    //pegando chave do nó
+                    keys = n.getKeys()[counter];
+                    readNode(nBelow,keys);
+                    readNode(nBelowSide,n.getKeys()[counter + 1]);
+
+                    if (isEmpty(nBelowSide)) {
+                        if (isEmpty(nBelow)) {
+                            //merge
+                            //jogando valores do merge para dentro do primeiro nó
+                            nBelow = mergeChild(nBelow,nBelowSide);
+                            //caso especial da raiz
+                            if (k == rootKey) {
+                                writeNode(nBelow,k);
+                                removeNode(n.getKeys()[counter]);
+                                removeNode(n.getKeys()[counter + 1]);
+                                return true;
+                            } else {
+                                //caso da chave ordinária
+                                //removeNode(n.getKeys()[counter + 1]);
+                                n.removeChild(n.getKeys()[counter + 1]);
+                                writeNode(nBelow,keys);
+                                n.removeValue(value);
+                                writeNode(n,k);
+                                return true;
+
+                            }
+                        } else {
+                            //removendo valor do nó cheio ao lado
+                            n.removeValue(value);
+                            n.appendValue(nBelow.getValues()[0]);
+                            writeNode(n,k);
+                            return loopRemove(n.getKeys()[counter + 1],nBelow.getValues()[0]);
+                        }
+                    } else {
+                        //removendo nó cheio ao lado
+                        n.removeValue(value);
+                        n.appendValue(nBelowSide.getValues()[0]);
+                        writeNode(n,k);
+                        return loopRemove(n.getKeys()[counter + 1],nBelowSide.getValues()[0]);
+
+                    }
+
+                }
+
+                //valor está abaixo
+                else if (value < i) {
+                    //verificando chave chave
+                    keys = n.getKeys()[counter];
+                    readNode(nBelow,keys);
+
+                    }
+                //caso especial, o valor é maior que todos os outros
+                else if (i == n.getValues().back()) {
+                    //verificando maior chave
+                    keys = n.getKeys().back();
+                    readNode(nBelow,keys);
+                    }
+
+                //a página abaixo está cheia
+                if (isEmpty(nBelow)) {
+                    if (counter == 0) {
+                        cout << endl << "menor counter" << endl;
+                        return true;
+                    }
+                    else if (counter == n.getValues().size()) {
+                        cout << endl << "maior counter" << endl;
+                        return true;
+                    }
+                    else {
+                        cout << endl << "caso especial" << endl;
+                        return true;
+                    }
+                    /***
+                    //fazendo o split
+                    vector<node<T>> inserter;
+                    cout << endl << "merge";
+                    inserter = splitChild(nBelow);
+
+                    n.appendValue(inserter[0].getValues()[0]);
+                    writeNode(inserter[1],keys);
+                    n.appendChild(insertNode(inserter[2]));
+                    writeNode(n,k);
+                    sortChild(n);
+                    return loopRemove(k,value);
+                    ***/
+
+                }
+                else {
+                    return loopRemove(keys,value);
                 }
             }
             //controle de contagem de i
@@ -258,29 +436,28 @@ bool tree<T>::searchLoop(unsigned long long int k, T value) {
         for (auto i : n.getValues()) {
             //valor menor possui mesmo índice
 
-            if (value < i || i == n.getValues().back()) {
+            if (value < i || i == n.getValues().back() || value == i) {
 
                 unsigned long long int keys;
-                if (value < i) {
+                if (value == i) {
+                    return true;
+                    }
+                else if (value < i) {
                     //verificando maior chave
                     keys = n.getKeys()[counter];
-                    }
+                }
                 //caso especial, o valor é maior que todos os outros
                 else if (i == n.getValues().back()) {
                     //verificando maior chave
                     keys = n.getKeys().back();
                     }
-
-                else if (value == i) {
-                    return true;
-                }
-
                 return searchLoop(keys,value);
             }
             //controle de contagem de i
             counter += 1;
         }
     }
+    cerr << endl << "ERRO NA BUSCA" << endl;
     return false;
 }
 

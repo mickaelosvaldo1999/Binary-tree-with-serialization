@@ -169,50 +169,16 @@ unsigned long long int typedFile<T>::insertRecord(record<T> &r) {
 
 template <class T>
 bool typedFile<T>::deleteRecord(unsigned long long int i) {
-    if (i != 0) {
-        record<T> r;
-        record<T> k;
-        unsigned long long int aux = this->getFirstValid();
-        unsigned long long int temp = 0;
-        if (aux == i) {
-            //Caso o deletado seja o primeiro válido
-            this->readRecord(r, aux);
-            this->rosetta.setFirstValid(r.getNext());
-            r.del();
-            r.setNext(this->getFirstDeleted());
-            rosetta.setFirstDeleted(aux);
-            writeRecord(r,aux);
-            writeHeader(rosetta);
-            return true;
-
-        } else {
-            //Caso o deleteado não seja o primeiro válido
-             while (aux != i) {
-                if (aux == 0) {
-                    cout << "ERRO GRAVE: DeleteRecord utilizado sem Search antes (cuidado!!!)" << endl;
-                    return false;
-                }
-                // Procurando valor sem entrar nele
-                this->readRecord(r, aux);
-                if (r.getNext() == i) {
-                    readRecord(k, i);
-                    r.setNext(k.getNext());
-                    k.del();
-                    k.setNext(rosetta.getFirstDeleted());
-                    rosetta.setFirstDeleted(i);
-                    this->writeRecord(k, i);
-                    this->writeRecord(r, aux);
-                    writeHeader(rosetta);
-                    return true;
-                };
-                aux = r.getNext();
-
-             }
-        }
-    } else {
-        cout << "ERRO GRAVE: ZERO É UM PARÂMETRO DE SISTEMA, ALGO DEU ERRADO" << endl;
-        return false;
-    }
+    //deletando record via iteiro
+    record<T> k;
+    readRecord(k, i);
+    r.setNext(k.getNext());
+    k.del();
+    k.setNext(rosetta.getFirstDeleted());
+    rosetta.setFirstDeleted(i);
+    writeRecord(k, i);
+    writeHeader(rosetta);
+    return true;
 }
 
 template <class T>

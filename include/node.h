@@ -15,6 +15,7 @@ class node: public serializable {
         node();
         node(bool i);
         void appendChild(unsigned long long int i);
+        bool removeChild(unsigned long long int i);
         void clear();
         string toString();
         void fromString(string repr);
@@ -24,6 +25,7 @@ class node: public serializable {
         void setKeys(vector<unsigned long long int> i);
         string print();
         bool appendValue(T k);
+        bool removeValue(T k);
         int sizeValues();
         bool isLeaf();
         void setLeaf(bool i);
@@ -48,6 +50,26 @@ class node: public serializable {
         vector<unsigned long long int> keys;
 
 };
+
+template <class T>
+bool node<T>::removeChild(unsigned long long int i) {
+
+}
+
+template <class T>
+bool node<T>::removeValue(T k) {
+    //criando vetor auxiliar
+    vector<T> aux;
+    aux = values;
+    values.clear();
+
+    for (auto i : aux) {
+        if (i != k) {
+            values.push_back(i);
+        }
+    }
+    return true;
+}
 
 template <class T>
 string node<T>::toString() {
@@ -140,7 +162,7 @@ template <class T>
 string node<T>::print() {
     string aux;
     for (auto i : values) {
-        aux += to_string(i.getValue()) + " ";
+        aux += i.getValue() + " ";
     }
     aux = "[ " + aux + "]";
     return aux;
@@ -193,7 +215,7 @@ int node<T>::sizeValues() {
 
 template <class T>
 unsigned long long int node<T>::size() const {
-    return sizeof(leaf) + (sizeof(int) * 5) + (sizeof(unsigned long long int) * 6);
+    return sizeof(leaf) + (dataSet.size() * 5) + (sizeof(unsigned long long int) * 6);
 }
 
 template <class T>

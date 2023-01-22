@@ -36,7 +36,8 @@ serialCurrency::serialCurrency(string i) : serializable() {
 }
 
 serialCurrency::serialCurrency(const serialCurrency &other) {
-    //setValue(other.getValue());
+    x = other.getx();
+    y = other.gety();
 }
 
 serialCurrency::~serialCurrency() {
@@ -44,12 +45,24 @@ serialCurrency::~serialCurrency() {
 }
 
 serialCurrency serialCurrency::operator=(const serialCurrency &other) {
-    //value = other.getValue();
+    x = other.getx();
+    y = other.gety();
 }
 
 bool serialCurrency::operator==(const serialCurrency &other) const {
     return getValue() == other.getValue();
 }
+
+bool serialCurrency::operator<<(const serialCurrency &other) {
+    setValue(other.getValue());
+    return true;
+}
+
+bool serialCurrency::operator>>(serialCurrency &other) const {
+    other.setValue(getValue());
+    return true;
+}
+
 
 
 bool serialCurrency::operator<(const serialCurrency &other) const {
@@ -95,8 +108,27 @@ serialCurrency serialCurrency::operator--() {
 
 }
 
-void serialCurrency::setValue(int v) {
-    value = v;
+void serialCurrency::setValue(string i) {
+     //convertendo strings para valores inteiros
+    string integer,fractional;
+    int controller = i.find('.');
+    //verificando se possui parte fracionária
+    if (controller == -1) {
+         integer = i.substr(0,i.size());
+         fractional = "0";
+    } else {
+        integer = i.substr(0,controller);
+        fractional = i.substr(controller + 1,i.size());
+    }
+    //convertendo para valores utilizaveis
+    x = stoi(integer);
+    y = stoi(fractional);
+
+    //tratando inconsistências
+    while (y > 100) {
+        x += 1;
+        y -= 100;
+    }
 }
 
 string serialCurrency::getValue() const {

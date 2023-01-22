@@ -13,6 +13,8 @@ class serialCurrency : serializable {
       serialCurrency operator=(const serialCurrency& other);
       bool operator==(const serialCurrency &other) const;
       bool operator<(const serialCurrency &other) const;
+      bool operator<<(const serialCurrency &other);
+      bool operator>>(serialCurrency &other) const;
       bool operator!=(const serialCurrency &other) const;
       serialCurrency operator+(const serialCurrency& other) const;
       serialCurrency operator-(const serialCurrency& other) const;
@@ -20,7 +22,7 @@ class serialCurrency : serializable {
       serialCurrency operator/(const serialCurrency& other) const;
       serialCurrency operator++();
       serialCurrency operator--();
-      void setValue(int v);
+      void setValue(string i);
       string getValue() const;
       virtual string toString();
       virtual void fromString(string repr);
@@ -39,7 +41,6 @@ class serialCurrency : serializable {
       virtual void fromJSON(string repr) {};
 
    protected:
-      int value = 999;
       int x;
       unsigned short int y;
 };

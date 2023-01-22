@@ -90,7 +90,7 @@
 	<header.h>
 	<intserial.h>
 
-1674397154 source:/home/mickael/Desktop/TypedFile/main.cpp
+1674415584 source:/home/mickael/Desktop/TypedFile/main.cpp
 	<iostream>
 	<clocale>
 	"serialCurrency.h"
@@ -108,7 +108,7 @@
 	<string>
 	"serializable.h"
 
-1674344329 /home/mickael/Desktop/TypedFile/include/typedfile.h
+1674422106 /home/mickael/Desktop/TypedFile/include/typedfile.h
 	<fstream>
 	<type_traits>
 	<string>
@@ -127,26 +127,26 @@
 	<iostream>
 	<string>
 
-1674395149 /home/mickael/Desktop/TypedFile/include/node.h
+1674410258 /home/mickael/Desktop/TypedFile/include/node.h
 	<serializable.h>
 	<vector>
 	<iostream>
 	<string>
 	<algorithm>
 
-1674344547 /home/mickael/Desktop/TypedFile/include/tree.h
+1674423975 /home/mickael/Desktop/TypedFile/include/tree.h
 	<node.h>
 	<typedfile.h>
 	"record.h"
 	<string>
 	<algorithm>
 
-1674397505 source:/home/mickael/Desktop/TypedFile/src/serialCurrency.cpp
+1674420136 source:/home/mickael/Desktop/TypedFile/src/serialCurrency.cpp
 	"serialCurrency.h"
 	<iostream>
 	<string>
 	<sstream>
 
-1674396669 /home/mickael/Desktop/TypedFile/include/serialCurrency.h
+1674400099 /home/mickael/Desktop/TypedFile/include/serialCurrency.h
 	"serializable.h"
 
