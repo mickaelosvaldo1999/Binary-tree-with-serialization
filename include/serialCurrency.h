@@ -6,7 +6,7 @@
 class serialCurrency : serializable {
    public:
       serialCurrency();
-      serialCurrency(int i);
+      serialCurrency(string i);
       serialCurrency(const serialCurrency& other);
       virtual ~serialCurrency();
 
@@ -21,11 +21,15 @@ class serialCurrency : serializable {
       serialCurrency operator++();
       serialCurrency operator--();
       void setValue(int v);
-      int getValue() const;
+      string getValue() const;
       virtual string toString();
       virtual void fromString(string repr);
       virtual unsigned long long int size() const;
-      int empty();
+      string empty();
+      int getx() const;
+      void setx(int);
+      unsigned short int gety() const;
+      void sety(unsigned short int);
 
       virtual string toXML() {return "NotImplemented";};
       virtual void fromXML(string repr) {};
@@ -36,6 +40,8 @@ class serialCurrency : serializable {
 
    protected:
       int value = 999;
+      int x;
+      unsigned short int y;
 };
 
 #endif // SERIALCURRENCY_H

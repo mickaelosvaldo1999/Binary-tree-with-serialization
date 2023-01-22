@@ -5,7 +5,8 @@
 #include <type_traits>
 #include <string>
 #include <header.h>
-#include <intserial.h>
+#include "record.h"
+
 using namespace std;
 
 const ios::openmode mode = ios::in | ios::out | ios::ate | ios::binary;

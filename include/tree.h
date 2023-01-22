@@ -2,6 +2,7 @@
 #define TREE_H
 #include <node.h>
 #include <typedfile.h>
+#include "record.h"
 #include <string>
 #include <algorithm>
 
@@ -226,6 +227,7 @@ bool tree<T>::loopInsert(unsigned long long int k, T value) {
             counter += 1;
         }
     }
+    return false;
 }
 
 template <class T>
@@ -279,8 +281,7 @@ bool tree<T>::searchLoop(unsigned long long int k, T value) {
             counter += 1;
         }
     }
-
-
+    return false;
 }
 
 template <class T>

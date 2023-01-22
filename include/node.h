@@ -55,7 +55,7 @@ string node<T>::toString() {
     unsigned long long int temp;
     string aux;
     unsigned int pos = 0;
-    aux.insert(0,this->size(), '/0');
+    aux.insert(0,this->size(), '\0');
     //salvando informações de folha
     pos += sizeof(leaf);
     aux.replace(0,sizeof(leaf),reinterpret_cast<char*>(&leaf), sizeof(leaf));
@@ -173,6 +173,7 @@ bool node<T>::appendValue(T k) {
     values.push_back(k);
     //ordenando o vetor
     sort(values.begin(), values.end());
+    return true;
 }
 
 template <class T>

@@ -1,11 +1,9 @@
 #include <iostream>
 #include <clocale>
-#include "header.h"
-#include "record.h"
-#include "typedfile.h"
+#include "serialCurrency.h"
+#include "intserial.h"
 #include "serialCurrency.h"
 #include <tree.h>
-#include <node.h>
 #define minDegree 3
 
 using namespace std;
@@ -13,10 +11,12 @@ using namespace std;
 int main() {
    //Setando local e variáveis iniciais.
    setlocale(LC_ALL, "Portuguese");
-   int op, n, i;
+   int op, n;
+   string chat;
+
 
    //Criando árvore
-   tree<serialCurrency> arvore(minDegree);
+   tree<intSerial> arvore(minDegree);
 
    if (arvore.isOpen()) {
       cout << "Arquivo aberto com sucesso!\n\n";
@@ -39,8 +39,13 @@ int main() {
                     arvore.print();
                }
                break;
-            case 2:
+            case 2: {
                cout << "Digite valor deseja remover do arquivo: ";
+               cin >> chat;
+               serialCurrency mika(chat);
+               serialCurrency teste;
+               teste.fromString(mika.toString());
+               cout << endl << teste.getValue() << endl;
                /***
                cin >> n;
                //i = arq.search(teste);
@@ -55,6 +60,7 @@ int main() {
                }
                ***/
                break;
+               }
             case 3:
                cout << "Digite o valor a ser pesquisado: ";
                cin >> n;
