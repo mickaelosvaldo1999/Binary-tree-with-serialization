@@ -48,6 +48,7 @@ int main() {
                cin >> chat;
                if (arvore.remove(chat)) {
                     cout << "Valor " << chat << " removido do arquivo\n" << endl;
+                    arvore.print();
                } else {
                     cout << "Valor " << chat << " não encontrado no arquivo\n" << endl;
                }

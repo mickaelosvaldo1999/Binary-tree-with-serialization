@@ -316,8 +316,8 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                     readNode(nBelow,keys);
                     readNode(nBelowSide,n.getKeys()[counter + 1]);
 
-                    if (isEmpty(nBelowSide)) {
-                        if (isEmpty(nBelow)) {
+                    if (isEmpty(nBelow)) {
+                        if (isEmpty(nBelowSide)) {
                             //merge
                             //jogando valores do merge para dentro do primeiro nó
                             nBelow = mergeChild(nBelow,nBelowSide);
@@ -339,23 +339,23 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                         } else {
                             //removendo valor do nó cheio ao lado
                             n.removeValue(value);
-                            n.appendValue(nBelow.getValues()[0]);
+                            n.appendValue(nBelowSide.getValues()[0]);
                             writeNode(n,k);
-                            return loopRemove(n.getKeys()[counter + 1],nBelow.getValues()[0]);
+                            return loopRemove(n.getKeys()[counter + 1],nBelowSide.getValues()[0]);
                         }
                     } else {
                         //removendo nó cheio ao lado
                         n.removeValue(value);
-                        n.appendValue(nBelowSide.getValues()[0]);
+                        n.appendValue(nBelow.getValues().back());
                         writeNode(n,k);
-                        return loopRemove(n.getKeys()[counter + 1],nBelowSide.getValues()[0]);
+                        return loopRemove(n.getKeys()[counter],nBelow.getValues().back());
 
                     }
 
                 }
 
                 //valor está abaixo
-                else if (value < i || i == n.getValues().back()) {
+                else if (value < i) {
                     //verificando chave chave
                     keys = n.getKeys()[counter];
                     readNode(nBelow,keys);
@@ -366,8 +366,8 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                 else if (i == n.getValues().back()) {
                     //verificando maior chave
                     keys = n.getKeys()[counter];
-                    readNode(nBelow,keys);
-                    readNode(nBelowSide,n.getKeys()[counter + 1]);
+                    readNode(nBelowSide,keys);
+                    readNode(nBelow,n.getKeys()[counter + 1]);
                     }
 
                 //a página abaixo está cheia
