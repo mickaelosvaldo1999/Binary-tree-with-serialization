@@ -19,7 +19,7 @@ class tree
         bool loopRemove(unsigned long long int i,T value);
         bool isFull(node<T> i);
         bool isEmpty(node<T> i);
-        vector<node<T>> splitChild(node<T> &i);
+        vector<node<T>> splitChild(node<T> i);
         node<T> mergeChild(node<T> keyA, node<T> keyB);
         bool readNode(node<T> &n, unsigned long long int i);
         bool writeNode(node<T> n, unsigned long long int i);
@@ -43,7 +43,7 @@ class tree
 
 
 template <class T>
-vector<node<T>> tree<T>::splitChild(node<T> &i) {
+vector<node<T>> tree<T>::splitChild(node<T> i) {
     //definindo vetores auxiliares
     vector<T> aux;
     vector<unsigned long long int> auxA;
@@ -81,6 +81,7 @@ vector<node<T>> tree<T>::splitChild(node<T> &i) {
     tempC.push_back(i);
     tempC.push_back(tempA);
     tempC.push_back(tempB);
+    cout << endl << "####### " << tempA.print() << tempB.print() << endl;
     return tempC;
 }
 
@@ -182,7 +183,7 @@ bool tree<T>::insert(T k) {
         node<T> root;
         readNode(root,rootKey);
         //Verificando se a raiz está cheia
-        if (isFull(root)) {
+        if (isFull(root) && root.isLeaf()) {
             //inserindo nova raiz
             vector<node<T>> aux;
             aux = splitChild(root);
@@ -328,7 +329,6 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                                 return true;
                             } else {
                                 //caso da chave ordinária
-                                //removeNode(n.getKeys()[counter + 1]);
                                 n.removeChild(n.getKeys()[counter + 1]);
                                 writeNode(nBelow,keys);
                                 n.removeValue(value);
@@ -355,33 +355,25 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                 }
 
                 //valor está abaixo
-                else if (value < i) {
+                else if (value < i || i == n.getValues().back()) {
                     //verificando chave chave
                     keys = n.getKeys()[counter];
                     readNode(nBelow,keys);
+                    readNode(nBelowSide,n.getKeys()[counter + 1]);
 
                     }
                 //caso especial, o valor é maior que todos os outros
                 else if (i == n.getValues().back()) {
                     //verificando maior chave
-                    keys = n.getKeys().back();
+                    keys = n.getKeys()[counter];
                     readNode(nBelow,keys);
+                    readNode(nBelowSide,n.getKeys()[counter + 1]);
                     }
 
                 //a página abaixo está cheia
                 if (isEmpty(nBelow)) {
-                    if (counter == 0) {
-                        cout << endl << "menor counter" << endl;
-                        return true;
-                    }
-                    else if (counter == n.getValues().size()) {
-                        cout << endl << "maior counter" << endl;
-                        return true;
-                    }
-                    else {
-                        cout << endl << "caso especial" << endl;
-                        return true;
-                    }
+                    readNode(nBelowSide,n.getKeys()[counter + 1]);
+
                     /***
                     //fazendo o split
                     vector<node<T>> inserter;
