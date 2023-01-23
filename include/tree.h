@@ -286,8 +286,7 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
      //lendo registro
     node<T> n;
     readNode(n,k);
-
-
+    n.print();
     if (n.isLeaf()) {
             //o nó é folha
             n.removeValue(value);
@@ -365,12 +364,13 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                 //caso especial, o valor é maior que todos os outros
                 else if (i == n.getValues().back()) {
                     //verificando maior chave
-                    keys = n.getKeys()[counter];
-                    readNode(nBelowSide,keys);
-                    readNode(nBelow,n.getKeys()[counter + 1]);
+                    keys = n.getKeys()[counter + 1];
+                    readNode(nBelow,keys);
+                    readNode(nBelowSide,n.getKeys()[counter]);
                     }
 
                 //a página abaixo está cheia
+                //Split preventivo
                 if (isEmpty(nBelow)) {
                     readNode(nBelowSide,n.getKeys()[counter + 1]);
 
