@@ -299,6 +299,7 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
         //declarando variável do nó abaixo
         node<T> nBelow;
         node<T> nBelowSide;
+        node<T> nBelowOther;
 
         int counter = 0;
         for (auto i : n.getValues()) {
@@ -358,21 +359,60 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                     //verificando chave chave
                     keys = n.getKeys()[counter];
                     readNode(nBelow,keys);
-                    readNode(nBelowSide,n.getKeys()[counter + 1]);
-
+                    if (counter != 0) {
+                        readNode(nBelowSide,n.getKeys()[counter - 1]);
+                        readNode(nBelowOther,n.getKeys()[counter + 1]);
+                    } else {
+                        readNode(nBelowOther,n.getKeys()[counter + 1]);
                     }
+
+                }
                 //caso especial, o valor é maior que todos os outros
                 else if (i == n.getValues().back()) {
                     //verificando maior chave
                     keys = n.getKeys()[counter + 1];
                     readNode(nBelow,keys);
                     readNode(nBelowSide,n.getKeys()[counter]);
-                    }
+                }
 
                 //a página abaixo está cheia
                 //Split preventivo
                 if (isEmpty(nBelow)) {
-                    readNode(nBelowSide,n.getKeys()[counter + 1]);
+                    if (isEmpty(nBelowSide)) {
+                        if (isEmpty(nBelowOther)) {
+                            //nBelow = mergeChild(nBelow,nBelowSide);
+                        } else {
+
+                            //removendo valor da direita
+                            nBelow.appendValue(i);
+                            n.removeValue(i);
+                            n.appendValue(nBelowOther.getValues()[0]);
+                            nBelowOther.removeValue(nBelowOther.getValues()[0]);
+                            writeNode(n,k);
+                            writeNode(nBelow,keys);
+                            writeNode(nBelowOther,n.getKeys()[counter + 1]);
+                            return loopRemove(keys,value);
+                        }
+                    } else {
+                        //removendo valor da esqueda
+                        cout << nBelowSide.print();
+                        nBelow.appendValue(n.getValues()[counter]);
+                        n.removeValue(n.getValues()[counter]);
+                        n.appendValue(nBelowSide.getValues().back());
+                        nBelowSide.removeValue(nBelowSide.getValues().back());
+
+                        writeNode(n,k);
+                        writeNode(nBelow,keys);
+                        writeNode(nBelowSide,n.getKeys()[counter]);
+                        return loopRemove(keys,value);
+
+                    }
+                    //caso da chave ordin
+                    //n.removeChild(n.getKeys()[counter]);
+                    //writeNode(nBelow,keys);
+                    //n.removeValue(value);
+                    //writeNode(n,k);
+                    return true;
 
                     /***
                     //fazendo o split
@@ -466,7 +506,7 @@ bool tree<T>::isFull(node<T> i) {
 
 template <class T>
 bool tree<T>::isEmpty(node<T> i) {
-    if (i.sizeValues() == (minDegree - 1)) {
+    if (i.sizeValues() <= (minDegree - 1)) {
         return true;
     }
 

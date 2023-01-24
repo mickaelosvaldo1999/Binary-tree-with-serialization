@@ -75,12 +75,20 @@ int main() {
                 cout << endl << "################################################################################" << endl;
                 cout << "#                       APPLET DE TESTES                                       #" << endl;
                 cout << "################################################################################" << endl;
+                cout << "Iniciando inserção..." << endl;
                 for (auto i : inserter) {
                     if (arvore.insert(i)) {
                         cout << "Inserindo: " << i << endl;
                         arvore.print();
                     }
                 }
+                cout << endl << "Aperte qualquer botão para iniciar a remoção" << endl;
+                cin >> chat;
+                for (auto i : remover) {
+                    if (arvore.remove(i)) {
+                        cout << "Removendo: " << i << endl;
+                        arvore.print();
+                    }}
                 break;
             case 6:
                cout << "Encerrando o programa... ";
