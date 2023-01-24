@@ -6,6 +6,19 @@
 #include <string>
 #include <algorithm>
 
+/***
+                                __________________________________________________
+                                |                                                |
+                                |     TRABALHO DE TÉCNICAS DE PROGRAMAÇÃO        |
+                                |----------------------------------------------- |
+                                |   ÁRVORE B EM DISCO COM TIPO SERIALCURRENCY    |
+                                |------------------------------------------------|
+                                |AUTOR: MICKAEL OSVALDO DE OLIVEIRA - RA:0059793 |
+                                |AUTOR: FILIPE ANDRADE COELHO - RA:0022130       |
+                                |________________________________________________|
+
+***/
+
 using namespace std;
 
 template <class T>
@@ -52,8 +65,18 @@ class node: public serializable {
 };
 
 template <class T>
-bool node<T>::removeChild(unsigned long long int i) {
-    //keys.erase(i);
+bool node<T>::removeChild(unsigned long long int k) {
+     //criando vetor auxiliar
+    vector<unsigned long long int> aux;
+    aux = keys;
+    keys.clear();
+
+    for (auto i : aux) {
+        if (i != k) {
+            keys.push_back(i);
+        }
+    }
+    return true;
 }
 
 template <class T>

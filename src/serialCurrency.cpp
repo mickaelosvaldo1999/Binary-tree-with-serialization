@@ -3,6 +3,19 @@
 #include <string>
 #include <sstream>
 
+/***
+                                __________________________________________________
+                                |                                                |
+                                |     TRABALHO DE TÉCNICAS DE PROGRAMAÇÃO        |
+                                |----------------------------------------------- |
+                                |   ÁRVORE B EM DISCO COM TIPO SERIALCURRENCY    |
+                                |------------------------------------------------|
+                                |AUTOR: MICKAEL OSVALDO DE OLIVEIRA - RA:0059793 |
+                                |AUTOR: FILIPE ANDRADE COELHO - RA:0022130       |
+                                |________________________________________________|
+
+***/
+
 
 serialCurrency::serialCurrency() : serializable() {
 
@@ -85,27 +98,27 @@ bool serialCurrency::operator!=(const serialCurrency &other) const {
 }
 
 serialCurrency serialCurrency::operator+(const serialCurrency& other) const {
-
+    cerr << endl << "Operador não implementado" << endl;
 }
 
 serialCurrency serialCurrency::operator-(const serialCurrency& other) const {
-
+    cerr << endl << "Operador não implementado" << endl;
 }
 
 serialCurrency serialCurrency::operator*(const serialCurrency& other) const {
-
+    cerr << endl << "Operador não implementado" << endl;
 }
 
 serialCurrency serialCurrency::operator/(const serialCurrency& other) const {
-
+    cerr << endl << "Operador não implementado" << endl;
 }
 
 serialCurrency serialCurrency::operator++() {
-
+    cerr << endl << "Operador não implementado" << endl;
 }
 
 serialCurrency serialCurrency::operator--() {
-
+    cerr << endl << "Operador não implementado" << endl;
 }
 
 void serialCurrency::setValue(string i) {

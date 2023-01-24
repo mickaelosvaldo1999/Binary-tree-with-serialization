@@ -7,6 +7,18 @@
 #include <header.h>
 #include "record.h"
 
+/***
+                                __________________________________________________
+                                |                                                |
+                                |     TRABALHO DE TÉCNICAS DE PROGRAMAÇÃO        |
+                                |----------------------------------------------- |
+                                |   ÁRVORE B EM DISCO COM TIPO SERIALCURRENCY    |
+                                |------------------------------------------------|
+                                |AUTOR: MICKAEL OSVALDO DE OLIVEIRA - RA:0059793 |
+                                |AUTOR: FILIPE ANDRADE COELHO - RA:0022130       |
+                                |________________________________________________|
+
+***/
 using namespace std;
 
 const ios::openmode mode = ios::in | ios::out | ios::ate | ios::binary;

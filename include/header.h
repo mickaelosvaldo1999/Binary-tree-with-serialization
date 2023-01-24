@@ -3,6 +3,19 @@
 
 #include "serializable.h"
 
+/***
+                                __________________________________________________
+                                |                                                |
+                                |     TRABALHO DE TÉCNICAS DE PROGRAMAÇÃO        |
+                                |----------------------------------------------- |
+                                |   ÁRVORE B EM DISCO COM TIPO SERIALCURRENCY    |
+                                |------------------------------------------------|
+                                |AUTOR: MICKAEL OSVALDO DE OLIVEIRA - RA:0059793 |
+                                |AUTOR: FILIPE ANDRADE COELHO - RA:0022130       |
+                                |________________________________________________|
+
+***/
+
 
 class header : public serializable {
    public:

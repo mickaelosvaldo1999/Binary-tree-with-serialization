@@ -6,6 +6,19 @@
 #include <string>
 #include <algorithm>
 
+/***
+                                __________________________________________________
+                                |                                                |
+                                |     TRABALHO DE TÉCNICAS DE PROGRAMAÇÃO        |
+                                |----------------------------------------------- |
+                                |   ÁRVORE B EM DISCO COM TIPO SERIALCURRENCY    |
+                                |------------------------------------------------|
+                                |AUTOR: MICKAEL OSVALDO DE OLIVEIRA - RA:0059793 |
+                                |AUTOR: FILIPE ANDRADE COELHO - RA:0022130       |
+                                |________________________________________________|
+
+***/
+
 using namespace std;
 template <class T>
 class tree
@@ -81,7 +94,6 @@ vector<node<T>> tree<T>::splitChild(node<T> i) {
     tempC.push_back(i);
     tempC.push_back(tempA);
     tempC.push_back(tempB);
-    cout << endl << "####### " << tempA.print() << tempB.print() << endl;
     return tempC;
 }
 
@@ -175,6 +187,7 @@ void tree<T>::sortChild(node<T> n) {
     }
 }
 
+//Inserção genérica
 template <class T>
 bool tree<T>::insert(T k) {
 
@@ -201,6 +214,7 @@ bool tree<T>::insert(T k) {
     }
 }
 
+//Inserção de forma recursiva
 template <class T>
 bool tree<T>::loopInsert(unsigned long long int k, T value) {
     //lendo registro
@@ -264,6 +278,7 @@ bool tree<T>::loopInsert(unsigned long long int k, T value) {
     return false;
 }
 
+//Remoção genérica
 template <class T>
 bool tree<T>::remove(T k) {
     if (search(k)) {
@@ -280,6 +295,7 @@ bool tree<T>::remove(T k) {
 }
 
 
+//Remoção de forma recursiva
 template <class T>
 bool tree<T>::loopRemove(unsigned long long int k, T value) {
 
@@ -322,7 +338,8 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                             //jogando valores do merge para dentro do primeiro nó
                             nBelow = mergeChild(nBelow,nBelowSide);
                             //caso especial da raiz
-                            if (k == rootKey) {
+                            readNode(nBelowOther,k);
+                            if (k == rootKey && nBelowOther.sizeValues() < 2) {
                                 writeNode(nBelow,k);
                                 removeNode(n.getKeys()[counter]);
                                 removeNode(n.getKeys()[counter + 1]);
@@ -330,6 +347,8 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                             } else {
                                 //caso da chave ordinária
                                 n.removeChild(n.getKeys()[counter + 1]);
+                                removeNode(n.getKeys()[counter + 1]);
+                                sortChild(n);
                                 writeNode(nBelow,keys);
                                 n.removeValue(value);
                                 writeNode(n,k);
@@ -368,7 +387,7 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
 
                 }
                 //caso especial, o valor é maior que todos os outros
-                else if (i == n.getValues().back()) {
+                else {
                     //verificando maior chave
                     keys = n.getKeys()[counter + 1];
                     readNode(nBelow,keys);
@@ -380,8 +399,17 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                 if (isEmpty(nBelow)) {
                     if (isEmpty(nBelowSide)) {
                         if (isEmpty(nBelowOther)) {
-                            //nBelow = mergeChild(nBelow,nBelowSide);
-                        } else {
+                            nBelow = mergeChild(nBelow,nBelowSide);
+                            //caso da chave ordinária
+                            nBelow.appendValue(i);
+                            n.removeChild(n.getKeys()[counter]);
+                            removeNode(n.getKeys()[counter]);
+                            sortChild(n);
+                            writeNode(nBelow,keys);
+                            n.removeValue(i);
+                            writeNode(n,k);
+                            return loopRemove(keys,value);
+                    } else {
 
                             //removendo valor da direita
                             nBelow.appendValue(i);
@@ -395,38 +423,31 @@ bool tree<T>::loopRemove(unsigned long long int k, T value) {
                         }
                     } else {
                         //removendo valor da esqueda
-                        cout << nBelowSide.print();
-                        nBelow.appendValue(n.getValues()[counter]);
-                        n.removeValue(n.getValues()[counter]);
-                        n.appendValue(nBelowSide.getValues().back());
-                        nBelowSide.removeValue(nBelowSide.getValues().back());
+                            if (counter == 0) {
+                            nBelow.appendValue(n.getValues()[counter]);
+                            n.removeValue(n.getValues()[counter]);
+                            n.appendValue(nBelowSide.getValues().back());
+                            nBelowSide.removeValue(nBelowSide.getValues().back());
 
-                        writeNode(n,k);
-                        writeNode(nBelow,keys);
-                        writeNode(nBelowSide,n.getKeys()[counter]);
-                        return loopRemove(keys,value);
+                            writeNode(n,k);
+                            writeNode(nBelow,keys);
+                            writeNode(nBelowSide,n.getKeys()[counter]);
+                            return loopRemove(keys,value);
+                            } else {
+                                nBelow.appendValue(n.getValues()[counter - 1]);
+                                n.removeValue(n.getValues()[counter - 1]);
+                                n.appendValue(nBelowSide.getValues().back());
+                                nBelowSide.removeValue(nBelowSide.getValues().back());
+
+                                writeNode(n,k);
+                                writeNode(nBelow,keys);
+                                writeNode(nBelowSide,n.getKeys()[counter - 1]);
+                                return loopRemove(keys,value);
+                            }
 
                     }
-                    //caso da chave ordin
-                    //n.removeChild(n.getKeys()[counter]);
-                    //writeNode(nBelow,keys);
-                    //n.removeValue(value);
-                    //writeNode(n,k);
                     return true;
 
-                    /***
-                    //fazendo o split
-                    vector<node<T>> inserter;
-                    cout << endl << "merge";
-                    inserter = splitChild(nBelow);
-
-                    n.appendValue(inserter[0].getValues()[0]);
-                    writeNode(inserter[1],keys);
-                    n.appendChild(insertNode(inserter[2]));
-                    writeNode(n,k);
-                    sortChild(n);
-                    return loopRemove(k,value);
-                    ***/
 
                 }
                 else {

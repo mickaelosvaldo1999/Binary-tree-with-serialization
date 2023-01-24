@@ -1,5 +1,19 @@
 #include "intserial.h"
 #include <iostream>
+
+/***
+                                __________________________________________________
+                                |                                                |
+                                |     TRABALHO DE TÉCNICAS DE PROGRAMAÇÃO        |
+                                |----------------------------------------------- |
+                                |   ÁRVORE B EM DISCO COM TIPO SERIALCURRENCY    |
+                                |------------------------------------------------|
+                                |AUTOR: MICKAEL OSVALDO DE OLIVEIRA - RA:0059793 |
+                                |AUTOR: FILIPE ANDRADE COELHO - RA:0022130       |
+                                |________________________________________________|
+
+***/
+
 intSerial::intSerial() : serializable() {
 
 }
@@ -21,6 +35,7 @@ intSerial::~intSerial() {
 
 intSerial intSerial::operator=(const intSerial &other) {
     value = other.getValue();
+    return true;
 }
 
 bool intSerial::operator==(const intSerial &other) const {
@@ -37,27 +52,27 @@ bool intSerial::operator!=(const intSerial &other) const {
 }
 
 intSerial intSerial::operator+(const intSerial& other) const {
-
+    return false;
 }
 
 intSerial intSerial::operator-(const intSerial& other) const {
-
+    return false;
 }
 
 intSerial intSerial::operator*(const intSerial& other) const {
-
+    return false;
 }
 
 intSerial intSerial::operator/(const intSerial& other) const {
-
+    return false;
 }
 
 intSerial intSerial::operator++() {
-
+    return false;
 }
 
 intSerial intSerial::operator--() {
-
+    return false;
 }
 
 void intSerial::setValue(int v) {
