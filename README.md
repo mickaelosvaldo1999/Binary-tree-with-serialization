@@ -19,4 +19,4 @@ B-Tree is a important secondary memory search data structure that enables effici
 Contributions are welcome! Feel free to open an issue or send a pull request.
 
 ## License
-This code is distributed under the MIT License. See the LICENSE file for more information.
+This code is distributed under the GPL-3.0 license. See the LICENSE file for more information.
