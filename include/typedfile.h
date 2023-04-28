@@ -10,15 +10,16 @@
 /***
                                 __________________________________________________
                                 |                                                |
-                                |     TRABALHO DE TÉCNICAS DE PROGRAMAÇÃO        |
+                                |         PROGRAMMING TECHNIQUES CHALLENGE       |
                                 |----------------------------------------------- |
-                                |   ÁRVORE B EM DISCO COM TIPO SERIALCURRENCY    |
+                                |      BINARY TREE IN DISK WITH MONETARY TYPE    |
                                 |------------------------------------------------|
-                                |AUTOR: MICKAEL OSVALDO DE OLIVEIRA - RA:0059793 |
-                                |AUTOR: FILIPE ANDRADE COELHO - RA:0022130       |
+                                |       AUTHOR: MICKAEL OSVALDO DE OLIVEIRA      |
+                                |       AUTHOR: FILIPE ANDRADE COELHO            |
                                 |________________________________________________|
 
 ***/
+
 using namespace std;
 
 const ios::openmode mode = ios::in | ios::out | ios::ate | ios::binary;
